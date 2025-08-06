@@ -20,8 +20,8 @@ Future<void> _initCore() async {
   sl.registerLazySingleton<Dio>(() {
     final dio = Dio();
     dio.options.baseUrl = 'https://rickandmortyapi.com/api/';
-    dio.options.connectTimeout = const Duration(seconds: 30);
-    dio.options.receiveTimeout = const Duration(seconds: 30);
+    dio.options.connectTimeout = const Duration(seconds: 60);
+    dio.options.receiveTimeout = const Duration(seconds: 60);
 
     dio.interceptors.add(
       LogInterceptor(

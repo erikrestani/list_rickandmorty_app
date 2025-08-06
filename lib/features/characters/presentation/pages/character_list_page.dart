@@ -51,20 +51,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
           ),
         ),
         child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              child: const Text(
-                'Personagens',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+          children: [ 
             Expanded(
               child: ListenableBuilder(
                 listenable: _viewModel,
