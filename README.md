@@ -50,3 +50,24 @@ lib/
 │               └── character_card.dart
 ├── shared/                       # Widgets reutilizáveis
 └── main.dart
+
+```
+
+---
+
+## 🧱 Arquitetura Utilizada
+
+O projeto adota a nova arquitetura recomendada pela equipe Flutter, combinando o padrão MVVM (Model-View-ViewModel) com os princípios da Clean Architecture.
+
+Essa estrutura facilita a testabilidade, manutenção e escalabilidade do código, e segue as boas práticas descritas na documentação oficial do Flutter.
+
+### ✅ Princípios Aplicados:
+
+- **MVVM**: Separação clara entre camada de apresentação (View), lógica da tela (ViewModel) e dados
+- **Camadas Clean Architecture**:
+  - `domain`: entidades e casos de uso
+  - `data`: modelos, datasources e repositórios
+  - `presentation`: UI + ViewModels
+- **Modularização por feature**: cada módulo possui suas próprias camadas isoladas
+- **Injeção de dependência**: feita via GetIt no arquivo `injection_container.dart`
+- **Responsabilidade única em cada classe** (S de SOLID)
