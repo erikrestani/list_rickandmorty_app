@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_fteam/core/di/injection_container.dart';
+import 'package:test_fteam/core/theme/app_theme.dart';
 import 'package:test_fteam/features/characters/presentation/viewmodels/character_viewmode.dart';
 import 'package:test_fteam/features/characters/presentation/widgets/character_card.dart';
 
@@ -27,29 +28,11 @@ class _CharacterListPageState extends State<CharacterListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1A),
       appBar: AppBar(
-        title: const Text(
-          'Rick and Morty',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        backgroundColor: const Color(0xFF2C3E50),
-        elevation: 0,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text('Rick and Morty'),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF2C3E50), Color(0xFF1A1A1A)],
-          ),
-        ),
+        decoration: AppTheme.backgroundDecoration,
         child: Column(
           children: [ 
             Expanded(
@@ -82,7 +65,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Clicou em ${character.name}'),
-                              backgroundColor: const Color(0xFF27AE60),
+                              backgroundColor: AppTheme.secondaryColor,
                             ),
                           );
                         },

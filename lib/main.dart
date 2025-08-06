@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_fteam/core/di/injection_container.dart' as di;
+import 'package:test_fteam/core/theme/app_theme.dart';
 import 'package:test_fteam/features/characters/presentation/pages/character_list_page.dart';
 
 void main() async {
@@ -14,12 +15,9 @@ class RickAndMortyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Personagens',
+      title: 'Rick and Morty',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.darkTheme,
       home: const CharacterListPage(),
     );
   }

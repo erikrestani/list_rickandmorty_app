@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_fteam/core/utils/status_color_utils.dart';
+import 'package:test_fteam/core/theme/app_theme.dart';
 import 'package:test_fteam/features/characters/domain/entities/character.dart';
 
 class CharacterCard extends StatelessWidget {
@@ -66,9 +66,7 @@ class CharacterCard extends StatelessWidget {
                           width: 8,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: StatusColorUtils.getStatusColor(
-                              character.status,
-                            ),
+                            color: AppTheme.getStatusColor(character.status),
                             shape: BoxShape.circle,
                           ),
                         ),
