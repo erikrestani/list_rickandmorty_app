@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource.dart';
 import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource_impl.dart';
 import 'package:test_fteam/features/characters/domain/repositories/character_repository.dart';
@@ -36,10 +35,8 @@ Future<void> _initCore() async {
 }
 
 Future<void> _initCharacters() async {
-  sl.registerLazySingleton<http.Client>(() => http.Client());
-
   sl.registerLazySingleton<CharacterRemoteDatasource>(
-    () => CharacterRemoteDatasourceImpl(sl<http.Client>()),
+    () => CharacterRemoteDatasourceImpl(dio: sl<Dio>()),
   );
 
   sl.registerLazySingleton<CharacterRepository>(
