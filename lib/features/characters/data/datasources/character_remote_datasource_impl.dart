@@ -10,17 +10,27 @@ class CharacterRemoteDatasourceImpl implements CharacterRemoteDatasource {
   @override
   Future<List<CharacterModel>> getCharacters() async {
     try {
-      final response = await dio.get('/character');
+      print('Fazendo requisição para: ${dio.options.baseUrl}character');
+      final response = await dio.get('character');
+      
+      print('Status code: ${response.statusCode}');
+      print('Response data: ${response.data}');
       
       if (response.statusCode == 200) {
         final jsonData = response.data;
         final results = jsonData['results'] as List;
+        
+        print('Número de personagens encontrados: ${results.length}');
 
-        return results.map((e) => CharacterModel.fromJson(e)).toList();
+        final characters = results.map((e) => CharacterModel.fromJson(e)).toList();
+        print('Personagens convertidos: ${characters.length}');
+        
+        return characters;
       } else {
         throw Exception('Erro ao buscar personagens: ${response.statusCode}');
       }
     } on DioException catch (e) {
+      print('DioException: ${e.type} - ${e.message}');
       if (e.type == DioExceptionType.connectionTimeout) {
         throw Exception('Timeout de conexão');
       } else if (e.type == DioExceptionType.receiveTimeout) {
@@ -31,6 +41,7 @@ class CharacterRemoteDatasourceImpl implements CharacterRemoteDatasource {
         throw Exception('Erro ao buscar personagens: ${e.message}');
       }
     } catch (e) {
+      print('Erro inesperado: $e');
       throw Exception('Erro inesperado: $e');
     }
   }

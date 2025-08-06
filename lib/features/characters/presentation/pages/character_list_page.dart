@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:test_fteam/core/di/injection_container.dart';
 import 'package:test_fteam/features/characters/presentation/viewmodels/character_viewmode.dart';
 import 'package:test_fteam/features/characters/presentation/widgets/character_card.dart';
 
@@ -11,23 +11,21 @@ class CharacterListPage extends StatefulWidget {
 }
 
 class _CharacterListPageState extends State<CharacterListPage> {
+  late final CharacterViewModel _viewModel;
+
   @override
   void initState() {
     super.initState();
+    _viewModel = sl<CharacterViewModel>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        Provider.of<CharacterViewModel>(
-          context,
-          listen: false,
-        ).fetchCharacters();
+        _viewModel.fetchCharacters();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CharacterViewModel>();
-
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A1A),
       appBar: AppBar(
@@ -68,22 +66,23 @@ class _CharacterListPageState extends State<CharacterListPage> {
               ),
             ),
             Expanded(
-              child: Builder(
-                builder: (_) {
-                  if (viewModel.isLoading) {
+              child: ListenableBuilder(
+                listenable: _viewModel,
+                builder: (context, child) {
+                  if (_viewModel.isLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  if (viewModel.errorMessage != null) {
+                  if (_viewModel.errorMessage != null) {
                     return Center(
                       child: Text(
-                        viewModel.errorMessage!,
+                        _viewModel.errorMessage!,
                         style: const TextStyle(color: Colors.red),
                       ),
                     );
                   }
 
-                  final characters = viewModel.characters;
+                  final characters = _viewModel.characters;
 
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(vertical: 8),
