@@ -60,7 +60,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   ],
                   LoadCharactersButton(
                     isLoading: _viewModel.isLoading,
-                    onPressed: () => _viewModel.loadCharactersAndNavigate(context),
+                    onPressed: () =>
+                        _viewModel.loadCharactersAndNavigate(context),
                   ),
                   const Spacer(),
                   const WelcomeFooter(),

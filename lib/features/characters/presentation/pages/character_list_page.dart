@@ -6,6 +6,7 @@ import 'package:list_rickandmorty_app/features/characters/presentation/viewmodel
 import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_list_header.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_list_content.dart';
 import 'package:list_rickandmorty_app/shared/error_widget.dart';
+import 'package:list_rickandmorty_app/shared/loading_widget.dart';
 
 class CharacterListPage extends StatefulWidget {
   final List<Character>? initialCharacters;
@@ -47,6 +48,10 @@ class _CharacterListPageState extends State<CharacterListPage> {
               child: ListenableBuilder(
                 listenable: _viewModel,
                 builder: (context, child) {
+                  if (_viewModel.isRefreshing) {
+                    return const Center(child: LoadingWidget(size: 50));
+                  }
+
                   if (_viewModel.errorMessage != null &&
                       _viewModel.characters.isEmpty) {
                     return ErrorDisplayWidget(

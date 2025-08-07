@@ -14,6 +14,7 @@ class CharacterViewModel extends ChangeNotifier {
   final ScrollController scrollController = ScrollController();
 
   bool isLoading = false;
+  bool isRefreshing = false;
   String? errorMessage;
   int _currentPage = 1;
   bool _hasMore = true;
@@ -113,13 +114,58 @@ class CharacterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> refresh() async {
+    if (isRefreshing) return;
+
+    isRefreshing = true;
+    errorMessage = null;
+    notifyListeners();
+
+    final startTime = DateTime.now();
+    const minimumLoadingTime = Duration(milliseconds: 800);
+
+    try {
+      _currentPage = 1;
+      _hasMore = true;
+      _allCharacters.clear();
+      characters.clear();
+      _activeFilters.clear();
+
+      final result = await getCharacters(page: _currentPage);
+
+      if (result.isNotEmpty) {
+        _allCharacters.addAll(result);
+        _applyFilters();
+        _currentPage++;
+      }
+    } catch (e) {
+      final error = e.toString();
+      if (error.contains('Timeout')) {
+        errorMessage =
+            'A conexão demorou muito para responder. Tente novamente.';
+      } else if (error.contains('conexão') || error.contains('rede')) {
+        errorMessage =
+            'Verifique sua conexão com a internet e tente novamente.';
+      } else if (error.contains('servidor')) {
+        errorMessage =
+            'Serviço temporariamente indisponível. Tente novamente em alguns minutos.';
+      } else {
+        errorMessage =
+            'Não foi possível carregar os personagens. Tente novamente.';
+      }
+    }
+
+    final elapsedTime = DateTime.now().difference(startTime);
+    if (elapsedTime < minimumLoadingTime) {
+      await Future.delayed(minimumLoadingTime - elapsedTime);
+    }
+
+    isRefreshing = false;
+    notifyListeners();
+  }
+
   void reset() {
-    _currentPage = 1;
-    _hasMore = true;
-    _allCharacters.clear();
-    characters.clear();
-    _activeFilters.clear();
-    fetchCharacters();
+    refresh();
   }
 
   void applyFilters(List<String> filters) {
