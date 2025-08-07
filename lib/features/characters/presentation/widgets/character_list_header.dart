@@ -14,36 +14,34 @@ class CharacterListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Rick and Morty',
-                style: AppTheme.titleStyle.copyWith(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.textColor,
-                ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              'Rick and Morty',
+              style: AppTheme.titleStyle.copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.textColor,
               ),
             ),
-            CharacterFilterButton(onPressed: onFilterPressed, label: 'Filtrar'),
-            const SizedBox(width: 12),
-            Container(
-              decoration: AppTheme.neonBorderDecoration,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.refresh,
-                  color: AppTheme.textColor,
-                  size: 20,
-                ),
-                onPressed: onRefreshPressed,
+          ),
+          CharacterFilterButton(onPressed: onFilterPressed, label: 'Filtrar'),
+          const SizedBox(width: 12),
+          Container(
+            decoration: AppTheme.neonBorderDecoration,
+            child: IconButton(
+              icon: const Icon(
+                Icons.refresh,
+                color: AppTheme.textColor,
+                size: 20,
               ),
+              onPressed: onRefreshPressed,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

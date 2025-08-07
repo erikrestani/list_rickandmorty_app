@@ -34,39 +34,41 @@ class _CharacterListPageState extends State<CharacterListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      body: Column(
-        children: [
-          CharacterListHeader(
-            onFilterPressed: () => _viewModel.showFilterDialog(context),
-            onRefreshPressed: _viewModel.reset,
-          ),
-          Expanded(
-            child: ListenableBuilder(
-              listenable: _viewModel,
-              builder: (context, child) {
-                if (_viewModel.isLoading && _viewModel.characters.isEmpty) {
-                  return const LoadingWidget();
-                }
-
-                if (_viewModel.errorMessage != null &&
-                    _viewModel.characters.isEmpty) {
-                  return ErrorDisplayWidget(
-                    errorMessage: _viewModel.errorMessage!,
-                    onRetry: _viewModel.retry,
-                  );
-                }
-
-                return CharacterListContent(
-                  characters: _viewModel.characters,
-                  isLoading: _viewModel.isLoading,
-                  scrollController: _viewModel.scrollController,
-                  onCharacterTap: (character) =>
-                      _viewModel.navigateToCharacterDetails(context, character),
-                );
-              },
+      body: SafeArea(
+        child: Column(
+          children: [
+            CharacterListHeader(
+              onFilterPressed: () => _viewModel.showFilterDialog(context),
+              onRefreshPressed: _viewModel.reset,
             ),
-          ),
-        ],
+            Expanded(
+              child: ListenableBuilder(
+                listenable: _viewModel,
+                builder: (context, child) {
+                  if (_viewModel.isLoading && _viewModel.characters.isEmpty) {
+                    return const LoadingWidget();
+                  }
+
+                  if (_viewModel.errorMessage != null &&
+                      _viewModel.characters.isEmpty) {
+                    return ErrorDisplayWidget(
+                      errorMessage: _viewModel.errorMessage!,
+                      onRetry: _viewModel.retry,
+                    );
+                  }
+
+                  return CharacterListContent(
+                    characters: _viewModel.characters,
+                    isLoading: _viewModel.isLoading,
+                    scrollController: _viewModel.scrollController,
+                    onCharacterTap: (character) =>
+                        _viewModel.navigateToCharacterDetails(context, character),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

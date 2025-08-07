@@ -43,8 +43,7 @@ void main() {
         ),
       ];
 
-      when(mockGetCharacters(page: 1))
-          .thenAnswer((_) async => personagens);
+      when(mockGetCharacters(page: 1)).thenAnswer((_) async => personagens);
 
       await viewModel.fetchCharacters();
 
@@ -55,8 +54,7 @@ void main() {
     });
 
     test('deve lidar com erro ao carregar personagens', () async {
-      when(mockGetCharacters(page: 1))
-          .thenThrow(Exception('Erro de rede'));
+      when(mockGetCharacters(page: 1)).thenThrow(Exception('Erro de rede'));
 
       await viewModel.fetchCharacters();
 
@@ -68,13 +66,30 @@ void main() {
 
     test('deve aplicar filtro por nome corretamente', () async {
       final personagens = [
-        Character(id: 1, name: 'Rick', status: 'Alive', species: 'Human', image: 'test.jpg'),
-        Character(id: 2, name: 'Morty', status: 'Alive', species: 'Human', image: 'test2.jpg'),
-        Character(id: 3, name: 'Summer', status: 'Alive', species: 'Human', image: 'test3.jpg'),
+        Character(
+          id: 1,
+          name: 'Rick',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test.jpg',
+        ),
+        Character(
+          id: 2,
+          name: 'Morty',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test2.jpg',
+        ),
+        Character(
+          id: 3,
+          name: 'Summer',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test3.jpg',
+        ),
       ];
 
-      when(mockGetCharacters(page: 1))
-          .thenAnswer((_) async => personagens);
+      when(mockGetCharacters(page: 1)).thenAnswer((_) async => personagens);
 
       await viewModel.fetchCharacters();
 
@@ -87,13 +102,30 @@ void main() {
 
     test('deve aplicar filtro por status corretamente', () async {
       final personagens = [
-        Character(id: 1, name: 'Rick', status: 'Alive', species: 'Human', image: 'test.jpg'),
-        Character(id: 2, name: 'Morty', status: 'Dead', species: 'Human', image: 'test2.jpg'),
-        Character(id: 3, name: 'Summer', status: 'Alive', species: 'Human', image: 'test3.jpg'),
+        Character(
+          id: 1,
+          name: 'Rick',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test.jpg',
+        ),
+        Character(
+          id: 2,
+          name: 'Morty',
+          status: 'Dead',
+          species: 'Human',
+          image: 'test2.jpg',
+        ),
+        Character(
+          id: 3,
+          name: 'Summer',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test3.jpg',
+        ),
       ];
 
-      when(mockGetCharacters(page: 1))
-          .thenAnswer((_) async => personagens);
+      when(mockGetCharacters(page: 1)).thenAnswer((_) async => personagens);
 
       await viewModel.fetchCharacters();
 
@@ -106,11 +138,16 @@ void main() {
 
     test('deve resetar estado corretamente', () async {
       final personagens = [
-        Character(id: 1, name: 'Rick', status: 'Alive', species: 'Human', image: 'test.jpg'),
+        Character(
+          id: 1,
+          name: 'Rick',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test.jpg',
+        ),
       ];
 
-      when(mockGetCharacters(page: 1))
-          .thenAnswer((_) async => personagens);
+      when(mockGetCharacters(page: 1)).thenAnswer((_) async => personagens);
 
       await viewModel.fetchCharacters();
       viewModel.sortByName();
@@ -123,8 +160,7 @@ void main() {
     });
 
     test('não deve carregar mais quando já está carregando', () async {
-      when(mockGetCharacters(page: 1))
-          .thenAnswer((_) async {
+      when(mockGetCharacters(page: 1)).thenAnswer((_) async {
         await Future.delayed(const Duration(seconds: 1));
         return [];
       });
@@ -136,6 +172,30 @@ void main() {
       await future1;
       await future2;
       verify(mockGetCharacters(page: 1)).called(1);
+    });
+
+    test('deve respeitar tempo mínimo de loading', () async {
+      final personagens = [
+        Character(
+          id: 1,
+          name: 'Rick Sanchez',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test.jpg',
+        ),
+      ];
+
+      when(mockGetCharacters(page: 1)).thenAnswer((_) async => personagens);
+
+      final startTime = DateTime.now();
+      await viewModel.fetchCharacters();
+      final endTime = DateTime.now();
+
+      final duration = endTime.difference(startTime);
+
+      expect(duration.inMilliseconds, greaterThanOrEqualTo(800));
+      expect(viewModel.isLoading, isFalse);
+      expect(viewModel.characters, isNotEmpty);
     });
   });
 }

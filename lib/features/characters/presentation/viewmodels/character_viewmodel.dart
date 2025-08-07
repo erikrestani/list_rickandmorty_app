@@ -49,6 +49,9 @@ class CharacterViewModel extends ChangeNotifier {
     errorMessage = null;
     notifyListeners();
 
+    final startTime = DateTime.now();
+    const minimumLoadingTime = Duration(milliseconds: 800);
+
     try {
       final result = await getCharacters(page: _currentPage);
 
@@ -80,6 +83,11 @@ class CharacterViewModel extends ChangeNotifier {
         errorMessage =
             'Não foi possível carregar os personagens. Tente novamente.';
       }
+    }
+
+    final elapsedTime = DateTime.now().difference(startTime);
+    if (elapsedTime < minimumLoadingTime) {
+      await Future.delayed(minimumLoadingTime - elapsedTime);
     }
 
     isLoading = false;

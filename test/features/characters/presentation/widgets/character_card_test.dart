@@ -17,14 +17,13 @@ void main() {
       );
     });
 
-    testWidgets('deve exibir informações do personagem corretamente', (WidgetTester tester) async {
+    testWidgets('deve exibir informações do personagem corretamente', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CharacterCard(
-              character: testCharacter,
-              onTap: () {},
-            ),
+            body: CharacterCard(character: testCharacter, onTap: () {}),
           ),
         ),
       );
@@ -33,7 +32,9 @@ void main() {
       expect(find.text('Alive'), findsOneWidget);
     });
 
-    testWidgets('deve chamar onTap quando pressionado', (WidgetTester tester) async {
+    testWidgets('deve chamar onTap quando pressionado', (
+      WidgetTester tester,
+    ) async {
       bool onTapCalled = false;
 
       await tester.pumpWidget(
@@ -47,13 +48,15 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byType(InkWell));
+      await tester.tap(find.byType(CharacterCard));
       await tester.pump();
 
       expect(onTapCalled, isTrue);
     });
 
-    testWidgets('deve exibir indicador de status com cor correta', (WidgetTester tester) async {
+    testWidgets('deve exibir indicador de status com cor correta', (
+      WidgetTester tester,
+    ) async {
       final aliveCharacter = Character(
         id: 1,
         name: 'Rick',
@@ -75,14 +78,8 @@ void main() {
           home: Scaffold(
             body: Column(
               children: [
-                CharacterCard(
-                  character: aliveCharacter,
-                  onTap: () {},
-                ),
-                CharacterCard(
-                  character: deadCharacter,
-                  onTap: () {},
-                ),
+                CharacterCard(character: aliveCharacter, onTap: () {}),
+                CharacterCard(character: deadCharacter, onTap: () {}),
               ],
             ),
           ),
@@ -93,7 +90,9 @@ void main() {
       expect(find.text('Dead'), findsOneWidget);
     });
 
-    testWidgets('deve lidar com nomes longos de personagens', (WidgetTester tester) async {
+    testWidgets('deve lidar com nomes longos de personagens', (
+      WidgetTester tester,
+    ) async {
       final longNameCharacter = Character(
         id: 1,
         name: 'Nome Muito Longo de Personagem Que Deve Ser Truncado',
@@ -105,18 +104,20 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CharacterCard(
-              character: longNameCharacter,
-              onTap: () {},
-            ),
+            body: CharacterCard(character: longNameCharacter, onTap: () {}),
           ),
         ),
       );
 
-      expect(find.text('Nome Muito Longo de Personagem Que Deve Ser Truncado'), findsOneWidget);
+      expect(
+        find.text('Nome Muito Longo de Personagem Que Deve Ser Truncado'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('deve exibir placeholder quando imagem falha ao carregar', (WidgetTester tester) async {
+    testWidgets('deve exibir placeholder quando imagem falha ao carregar', (
+      WidgetTester tester,
+    ) async {
       final invalidImageCharacter = Character(
         id: 1,
         name: 'Rick',
@@ -128,10 +129,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CharacterCard(
-              character: invalidImageCharacter,
-              onTap: () {},
-            ),
+            body: CharacterCard(character: invalidImageCharacter, onTap: () {}),
           ),
         ),
       );
