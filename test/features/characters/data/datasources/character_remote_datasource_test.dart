@@ -5,7 +5,6 @@ import 'package:list_rickandmorty_app/features/characters/data/models/character_
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-
 import 'character_remote_datasource_test.mocks.dart';
 
 @GenerateMocks([Dio])
@@ -210,6 +209,100 @@ void main() {
           expect(() => datasource.getCharacters(1), throwsA(isA<Exception>()));
 
           verify(mockDio.get('character?page=1')).called(1);
+        },
+      );
+    });
+
+    group('getCharacterById - Cenários de Sucesso', () {
+      test(
+        'deve retornar personagem quando API retorna dados válidos',
+        () async {
+          final characterJson = {
+            'id': 1,
+            'name': 'Rick Sanchez',
+            'image': 'https://example.com/rick.jpg',
+            'status': 'Alive',
+            'species': 'Human',
+          };
+
+          when(mockDio.get('character/1')).thenAnswer(
+            (_) async => Response(
+              data: characterJson,
+              statusCode: 200,
+              requestOptions: RequestOptions(path: 'character/1'),
+            ),
+          );
+
+          final result = await datasource.getCharacterById(1);
+
+          expect(result, isA<CharacterModel>());
+          expect(result.id, 1);
+          expect(result.name, 'Rick Sanchez');
+          expect(result.status, 'Alive');
+          expect(result.species, 'Human');
+
+          verify(mockDio.get('character/1')).called(1);
+        },
+      );
+    });
+
+    group('getCharacterById - Cenários de Erro HTTP', () {
+      test(
+        'deve lançar exceção quando API retorna status code diferente de 200',
+        () async {
+          when(mockDio.get('character/1')).thenAnswer(
+            (_) async => Response(
+              data: {'error': 'Not found'},
+              statusCode: 404,
+              requestOptions: RequestOptions(path: 'character/1'),
+            ),
+          );
+          expect(
+            () => datasource.getCharacterById(1),
+            throwsA(isA<Exception>()),
+          );
+
+          verify(mockDio.get('character/1')).called(1);
+        },
+      );
+    });
+
+    group('getCharacterById - Cenários de Erro de Rede', () {
+      test(
+        'deve lançar exceção de timeout quando há timeout de conexão',
+        () async {
+          when(mockDio.get('character/1')).thenThrow(
+            DioException(
+              type: DioExceptionType.connectionTimeout,
+              requestOptions: RequestOptions(path: 'character/1'),
+            ),
+          );
+
+          expect(
+            () => datasource.getCharacterById(1),
+            throwsA(isA<Exception>()),
+          );
+
+          verify(mockDio.get('character/1')).called(1);
+        },
+      );
+
+      test(
+        'deve lançar exceção de erro de conexão quando não há conectividade',
+        () async {
+          when(mockDio.get('character/1')).thenThrow(
+            DioException(
+              type: DioExceptionType.connectionError,
+              requestOptions: RequestOptions(path: 'character/1'),
+            ),
+          );
+
+          expect(
+            () => datasource.getCharacterById(1),
+            throwsA(isA<Exception>()),
+          );
+
+          verify(mockDio.get('character/1')).called(1);
         },
       );
     });

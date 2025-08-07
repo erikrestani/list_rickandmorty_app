@@ -5,6 +5,7 @@ import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_ch
 
 class TestRepository implements CharacterRepository {
   List<Character>? charactersToReturn;
+  Character? characterToReturn;
   Exception? exceptionToThrow;
 
   @override
@@ -13,6 +14,14 @@ class TestRepository implements CharacterRepository {
       throw exceptionToThrow!;
     }
     return charactersToReturn ?? [];
+  }
+
+  @override
+  Future<Character> getCharacterById(int id) async {
+    if (exceptionToThrow != null) {
+      throw exceptionToThrow!;
+    }
+    return characterToReturn!;
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:list_rickandmorty_app/features/characters/domain/repositories/ch
 
 class TestDatasource implements CharacterRemoteDatasource {
   List<CharacterModel>? charactersToReturn;
+  CharacterModel? characterToReturn;
   Exception? exceptionToThrow;
 
   @override
@@ -13,6 +14,14 @@ class TestDatasource implements CharacterRemoteDatasource {
       throw exceptionToThrow!;
     }
     return charactersToReturn ?? [];
+  }
+
+  @override
+  Future<CharacterModel> getCharacterById(int id) async {
+    if (exceptionToThrow != null) {
+      throw exceptionToThrow!;
+    }
+    return characterToReturn!;
   }
 }
 
@@ -77,6 +86,34 @@ void main() {
       datasource.exceptionToThrow = Exception('Erro de rede');
 
       expect(() => repository.getCharacters(1), throwsA(isA<Exception>()));
+    });
+
+    test(
+      'deve converter CharacterModel para Character entity ao buscar por ID',
+      () async {
+        final model = CharacterModel(
+          id: 1,
+          name: 'Test Character',
+          image: 'https://example.com/image.jpg',
+          status: 'Alive',
+          species: 'Human',
+        );
+
+        datasource.characterToReturn = model;
+
+        final result = await repository.getCharacterById(1);
+
+        expect(result.id, 1);
+        expect(result.name, 'Test Character');
+        expect(result.status, 'Alive');
+        expect(result.species, 'Human');
+      },
+    );
+
+    test('deve propagar exceção do datasource ao buscar por ID', () async {
+      datasource.exceptionToThrow = Exception('Erro de rede');
+
+      expect(() => repository.getCharacterById(1), throwsA(isA<Exception>()));
     });
   });
 }

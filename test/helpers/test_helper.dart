@@ -49,7 +49,6 @@ class TestHelper {
     final mockGetCharacters = MockGetCharacters();
     final mockViewModel = CharacterViewModel(mockGetCharacters);
 
-    // Registrar o mock no GetIt
     if (GetIt.instance.isRegistered<CharacterViewModel>()) {
       GetIt.instance.unregister<CharacterViewModel>();
     }

@@ -19,7 +19,9 @@ class AppTheme {
 
   // Cores com opacidade
   static const Color shadowColor = Color(0x4D000000); // 30% opacidade
-  static const Color borderColorLight = Color(0x4D27AE60); // Verde com 30% opacidade
+  static const Color borderColorLight = Color(
+    0x4D27AE60,
+  ); // Verde com 30% opacidade
 
   // Gradientes
   static const LinearGradient backgroundGradient = LinearGradient(
