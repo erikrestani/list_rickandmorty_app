@@ -73,6 +73,11 @@ lib/
 - `backgroundColor`: Fundo escuro (#0F172A)
 - `textColor`: Texto branco (#FFFFFF)
 
+### 🚧 Compatibilidade
+Este aplicativo Flutter é multiplataforma, podendo ser executado tanto em Android quanto em iOS, desde que atendidos os pré-requisitos de ambiente e permissões da plataforma.
+
+💡 Observação: Para executar no iOS, é necessário um dispositivo macOS com Xcode instalado.
+
 ## 🧪 Testes
 
 O projeto possui uma cobertura abrangente de testes seguindo as melhores práticas:
