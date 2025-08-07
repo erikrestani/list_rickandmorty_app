@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:list_rickandmorty_app/core/di/injection_container.dart' as di;
 import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
-import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_list_page.dart';
+import 'package:list_rickandmorty_app/features/welcome/presentation/pages/welcome_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,7 @@ class ListRickAndMortyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const CharacterListPage(),
+      home: const WelcomePage(),
     );
   }
 }

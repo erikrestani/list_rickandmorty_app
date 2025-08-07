@@ -29,7 +29,10 @@ class CharacterCard extends StatelessWidget {
                   height: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: AppTheme.borderColorNeon, width: 2),
+                    border: Border.all(
+                      color: AppTheme.borderColorNeon,
+                      width: 2,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: AppTheme.neonShadowColor,
@@ -86,7 +89,9 @@ class CharacterCard extends StatelessWidget {
                       width: 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: StatusColorUtils.getStatusColor(character.status),
+                        color: StatusColorUtils.getStatusColor(
+                          character.status,
+                        ),
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -100,7 +105,9 @@ class CharacterCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     Text(
                       character.status,
-                      style: AppTheme.characterStatusStyle.copyWith(fontSize: 12),
+                      style: AppTheme.characterStatusStyle.copyWith(
+                        fontSize: 12,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ],

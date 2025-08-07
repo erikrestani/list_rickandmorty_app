@@ -22,29 +22,34 @@ class CharacterListContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GridView.builder(
-          controller: scrollController,
-          padding: const EdgeInsets.all(16),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.9,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-          ),
-          itemCount: characters.length + 1,
-          itemBuilder: (context, index) {
-            if (index == characters.length) {
-              return isLoading
-                  ? SizedBox(height: 100, child: const LoadingWidget(size: 30))
-                  : const SizedBox();
-            }
-
-            final character = characters[index];
-            return CharacterCard(
-              character: character,
-              onTap: () => onCharacterTap(character),
-            );
-          },
+        Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                controller: scrollController,
+                padding: const EdgeInsets.all(16),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.9,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: characters.length,
+                itemBuilder: (context, index) {
+                  final character = characters[index];
+                  return CharacterCard(
+                    character: character,
+                    onTap: () => onCharacterTap(character),
+                  );
+                },
+              ),
+            ),
+            if (isLoading)
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: const Center(child: LoadingWidget(size: 30)),
+              ),
+          ],
         ),
         ScrollToTopButton(scrollController: scrollController),
       ],

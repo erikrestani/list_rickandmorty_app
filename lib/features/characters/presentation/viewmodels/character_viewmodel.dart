@@ -26,6 +26,25 @@ class CharacterViewModel extends ChangeNotifier {
     fetchCharacters();
   }
 
+  void initializeWithCharacters(List<Character>? initialCharacters) {
+    scrollController.addListener(_onScroll);
+
+    if (initialCharacters != null && initialCharacters.isNotEmpty) {
+      _allCharacters.addAll(initialCharacters);
+      characters.addAll(initialCharacters);
+      _currentPage = 2;
+      notifyListeners();
+    } else {
+      fetchCharacters();
+    }
+  }
+
+  Future<void> loadCharacters() async {
+    if (characters.isEmpty && !isLoading) {
+      await fetchCharacters();
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();

@@ -8,12 +8,14 @@ import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_ch
 import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_character_by_id.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_details_viewmodel.dart';
+import 'package:list_rickandmorty_app/features/welcome/presentation/viewmodels/welcome_viewmodel.dart';
 
 final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
   await _initCore();
   await _initCharacters();
+  await _initWelcome();
 }
 
 Future<void> _initCore() async {
@@ -60,5 +62,11 @@ Future<void> _initCharacters() async {
 
   sl.registerFactory<CharacterDetailsViewModel>(
     () => CharacterDetailsViewModel(sl<GetCharacterById>()),
+  );
+}
+
+Future<void> _initWelcome() async {
+  sl.registerFactory<WelcomeViewModel>(
+    () => WelcomeViewModel(sl<GetCharacters>()),
   );
 }

@@ -52,7 +52,7 @@ class CharacterInfoCard extends StatelessWidget {
                 Text(character.status, style: AppTheme.cardValueStyle),
               ],
             ),
-            const SizedBox(height: 24), 
+            const SizedBox(height: 24),
             Row(
               children: [
                 Icon(
