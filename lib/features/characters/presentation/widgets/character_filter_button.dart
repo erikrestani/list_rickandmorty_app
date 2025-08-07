@@ -18,14 +18,18 @@ class CharacterFilterButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          foregroundColor: AppTheme.textColor,
+          foregroundColor: AppTheme.textColor,  
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
-        child: Text(
-          label,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        child: Row(
+          children: [
+            const Icon(Icons.filter_list),
+            const SizedBox(width: 4),
+            Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+          ],
         ),
       ),
+      
     );
   }
 }
