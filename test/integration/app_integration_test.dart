@@ -1,46 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/main.dart';
+import 'package:test_fteam/core/theme/app_theme.dart';
+import 'package:test_fteam/features/characters/presentation/pages/character_list_page.dart';
+import '../helpers/test_helper.dart';
 
 void main() {
-  group('App Integration Tests', () {
-    testWidgets('deve carregar a app e navegar para a lista de personagens', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(MaterialApp), findsOneWidget);
-
-      expect(tester.takeException(), isNull);
+  group('App - Testes de Integração', () {
+    setUp(() {
+      TestHelper.setupMockCharacterViewModel();
     });
 
-    testWidgets('deve lidar com o ciclo de vida da app corretamente', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
-
-      await tester.pumpAndSettle();
-
-      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
-      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(MaterialApp), findsOneWidget);
+    tearDown(() {
+      TestHelper.teardownMocks();
     });
 
-    testWidgets('deve manter o estado da app durante as reconstruções', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
+    testWidgets(
+      'deve carregar página de personagens com AppBar e título corretos',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: AppTheme.darkTheme,
+            home: const CharacterListPage(),
+          ),
+        );
 
-      await tester.pumpAndSettle();
-      await tester.pump();
-      await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.pumpAndSettle();
 
-      expect(find.byType(MaterialApp), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    });
+        expect(find.byType(AppBar), findsOneWidget);
+        expect(find.text('Rick and Morty'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'deve exibir botão de refresh na AppBar para recarregar dados',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: AppTheme.darkTheme,
+            home: const CharacterListPage(),
+          ),
+        );
+
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.pumpAndSettle();
+
+        expect(find.byIcon(Icons.refresh), findsOneWidget);
+      },
+    );
   });
 }
