@@ -31,17 +31,26 @@ Executa automaticamente quando você faz push ou PR.
 
 ## 📁 Arquivos
 
-- `.github/workflows/ci.yml` - Pipeline do GitHub
+- `.github/workflows/ci.yml` - Testes automáticos
+- `.github/workflows/deploy.yml` - Deploy automático (apenas em tags)
 - `scripts/test.sh` - Script local
 
 ## 🔧 Como funciona
 
-### **GitHub Actions (.github/workflows/ci.yml)**
+### **Testes (.github/workflows/ci.yml)**
 ```yaml
 - Baixar código
 - Instalar Flutter
 - Instalar dependências
 - Executar testes
+```
+
+### **Deploy (.github/workflows/deploy.yml)**
+```yaml
+- Executa apenas em tags (v*)
+- Build APK e App Bundle
+- Build Web
+- Cria release no GitHub
 ```
 
 ### **Script Local (scripts/test.sh)**
@@ -54,7 +63,7 @@ flutter test
 
 - ✅ **Simples** - Apenas o essencial
 - ✅ **Rápido** - Execução direta
-- ✅ **Automático** - Sem configurações complexas
+- ✅ **Sem duplicação** - Cada workflow tem uma função específica
 
 ---
 

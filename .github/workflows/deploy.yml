@@ -24,9 +24,6 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
         
-      - name: Run tests before deploy
-        run: flutter test --coverage
-        
       - name: Build APK
         run: flutter build apk --release
         
@@ -44,7 +41,6 @@ jobs:
           body: |
             ## What's Changed
             - Automated release from CI/CD pipeline
-            - All tests passing
             - Performance optimized
             
             ## Download
@@ -90,9 +86,6 @@ jobs:
           
       - name: Get dependencies
         run: flutter pub get
-        
-      - name: Run tests
-        run: flutter test --coverage
         
       - name: Build Web
         run: flutter build web --release
