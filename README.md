@@ -1,211 +1,213 @@
-# List Rick and Morty App
+# Rick and Morty Character List App
 
-Aplicativo Flutter desenvolvido para teste técnico da FTeam, consumindo a [Rick and Morty API](https://rickandmortyapi.com/) com foco em arquitetura limpa (Clean Architecture), princípios SOLID e organização modular por feature.
-
----
+Uma aplicação Flutter moderna para listar personagens da série Rick and Morty, construída com Clean Architecture e seguindo as melhores práticas de desenvolvimento.
 
 ## 🚀 Funcionalidades
 
-- 📱 Listagem de personagens com imagens e nomes
-- 🔍 Exibição de status e espécie de cada personagem
-- 🌐 Consumo real da Rick and Morty API
-- 🎯 Estrutura baseada em MVVM + Clean Architecture
-- 💡 Código limpo, escalável e de fácil manutenção
-- 🧪 Testes unitários, de widget e integração
-- 🎨 Tema centralizado e responsivo
-- 🔧 Injeção de dependência com GetIt
-- 📱 App icon personalizado
+- **Welcome Screen**: Tela de boas-vindas com carregamento manual de personagens
+- **Character List**: Lista de personagens com scroll infinito
+- **Character Details**: Detalhes completos de cada personagem
+- **Filter System**: Sistema de filtros por nome e status
+- **Modern UI**: Interface moderna com tema escuro e efeitos neon
+- **Error Handling**: Tratamento robusto de erros
+- **Loading States**: Estados de carregamento bem definidos
 
----
+## 🏗️ Arquitetura
 
-## 🏗️ Escalabilidade e Arquitetura
+O projeto segue os princípios da **Clean Architecture** com as seguintes camadas:
 
-### **Por que este projeto é escalável?**
+### 📁 Estrutura do Projeto
 
-Embora seja um projeto simples para teste técnico, foi desenvolvido com foco em **escalabilidade** e **boas práticas** para demonstrar conhecimentos em arquitetura de software:
-
-- **Clean Architecture**: Separação clara de responsabilidades
-- **Modularização por Feature**: Cada funcionalidade é um módulo independente
-- **Injeção de Dependência**: Facilita testes e manutenção
-- **Padrão MVVM**: Gerenciamento de estado escalável
-- **Testes Automatizados**: Garantia de qualidade em crescimento
-
-### **CI/CD Pipeline**
-
-Implementei uma **pipeline simples mas robusta** no GitHub Actions:
-
-- **Testes Automatizados**: Execução automática em push/PR
-- **Cache Inteligente**: Otimização de performance
-- **Deploy Automático**: Preparado para releases
-- **Sem Duplicação**: Workflows organizados e eficientes
-
-### **Planos Futuros**
-
-O projeto está preparado para expansão com:
-
-- **Deploy Automático para Google Play Store**
-- **Deploy Automático para Apple App Store**
-- **Testes de Performance**
-- **Monitoramento e Analytics**
-- **Novas Features**: Detalhes de personagens, favoritos, busca, etc.
-
----
-
-## 📁 Estrutura do Projeto (Clean Architecture)
-
-```plaintext
+```
 lib/
-├── core/                         # Configurações globais
-│   ├── di/                       # Injeção de dependência
+├── core/
+│   ├── config/
+│   ├── di/
 │   │   └── injection_container.dart
-│   ├── theme/                    # Tema centralizado
+│   ├── theme/
 │   │   └── app_theme.dart
-│   └── utils/                    # Utilitários
+│   └── utils/
 │       └── status_color_utils.dart
 ├── features/
-│   └── characters/               # Módulo principal
-│       ├── data/
-│       │   ├── datasources/
-│       │   │   ├── character_remote_datasource.dart
-│       │   │   └── character_remote_datasource_impl.dart
-│       │   ├── models/
-│       │   │   └── character_model.dart
-│       │   └── repositories/
-│       │       └── character_repository_impl.dart
-│       ├── domain/
-│       │   ├── entities/
-│       │   │   └── character.dart
-│       │   ├── repositories/
-│       │   │   └── character_repository.dart
-│       │   └── usecases/
-│       │       └── get_characters.dart
+│   ├── characters/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   └── models/
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   ├── repositories/
+│   │   │   └── usecases/
+│   │   └── presentation/
+│   │       ├── pages/
+│   │       ├── viewmodels/
+│   │       └── widgets/
+│   └── welcome/
 │       └── presentation/
 │           ├── pages/
-│           │   └── character_list_page.dart
-│           ├── viewmodels/       # MVVM - lógica da tela
-│           │   └── character_viewmodel.dart
+│           ├── viewmodels/
 │           └── widgets/
-│               └── character_card.dart
-├── assets/                       # Recursos do app
-│   └── app_icon.png
+├── shared/
+│   ├── error_widget.dart
+│   ├── loading_widget.dart
+│   └── scroll_to_top_button.dart
 └── main.dart
-
-test/
-├── features/                     # Testes organizados por feature
-│   └── characters/
-│       ├── domain/               # Testes de entidades
-│       │   └── entities/
-│       │       └── character_test.dart
-│       └── presentation/         # Testes de widgets
-├── integration/                  # Testes de integração
-│   └── app_integration_test.dart
-├── helpers/                      # Helpers para testes
-│   └── test_helper.dart
-└── widget_test.dart              # Teste principal do widget
 ```
 
----
+### 🎯 Camadas da Arquitetura
 
-## 🧱 Arquitetura Utilizada
+1. **Presentation Layer**: Widgets, ViewModels e Pages
+2. **Domain Layer**: Entities, Use Cases e Repository Interfaces
+3. **Data Layer**: Repository Implementations, Data Sources e Models
 
-O projeto adota a nova arquitetura recomendada pela equipe Flutter, combinando o padrão MVVM (Model-View-ViewModel) com os princípios da Clean Architecture.
+## 🎨 Design System
 
-Essa estrutura facilita a testabilidade, manutenção e escalabilidade do código, e segue as boas práticas descritas na documentação oficial do Flutter.
+### Tema Moderno
+- **Dark Theme**: Fundo escuro com cores neon
+- **Neon Effects**: Bordas e sombras com efeito neon
+- **Material 3**: Interface moderna com Material Design 3
+- **Responsive**: Layout responsivo para diferentes tamanhos de tela
 
-### ✅ Princípios Aplicados:
-
-- **MVVM**: Separação clara entre camada de apresentação (View), lógica da tela (ViewModel) e dados
-- **Clean Architecture**:
-  - `domain`: entidades, casos de uso e interfaces de repositório
-  - `data`: modelos, datasources e implementações de repositório
-  - `presentation`: UI, ViewModels e widgets
-- **Modularização por feature**: cada módulo possui suas próprias camadas isoladas
-- **Injeção de dependência**: feita via GetIt no arquivo `injection_container.dart`
-- **Tema centralizado**: cores e estilos organizados em `AppTheme`
-- **Testes automatizados**: unitários, widgets e integração
-- **Responsabilidade única em cada classe** (S de SOLID)
-
-### 🎯 Tecnologias Utilizadas:
-
-- **Flutter**: Framework principal
-- **Dio**: Cliente HTTP para requisições à API
-- **GetIt**: Injeção de dependência
-- **Provider**: Gerenciamento de estado (MVVM)
-- **flutter_launcher_icons**: Geração de ícones do app
-
----
-
-## 🚀 Como Executar
-
-### Pré-requisitos:
-- Flutter SDK 3.8.0 ou superior
-- Dart SDK 3.0.0 ou superior
-
-### Passos:
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/erikrestani/list_rickandmorty_app.git
-   cd list_rickandmorty_app
-   ```
-
-2. **Instale as dependências:**
-   ```bash
-   flutter pub get
-   ```
-
-3. **Execute o app:**
-   ```bash
-   flutter run
-   ```
-
----
+### Cores Principais
+- `primaryColor`: Azul escuro sutil (#1E293B)
+- `secondaryColor`: Azul neon principal (#3B82F6)
+- `backgroundColor`: Fundo escuro (#0F172A)
+- `textColor`: Texto branco (#FFFFFF)
 
 ## 🧪 Testes
 
-### Executar todos os testes:
+O projeto possui uma cobertura abrangente de testes seguindo as melhores práticas:
+
+### 📊 Cobertura de Testes
+
+```
+test/
+├── features/
+│   ├── characters/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   └── models/
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   ├── repositories/
+│   │   │   └── usecases/
+│   │   └── presentation/
+│   │       ├── pages/
+│   │       ├── viewmodels/
+│   │       └── widgets/
+│   └── welcome/
+│       └── presentation/
+│           ├── pages/
+│           ├── viewmodels/
+│           └── widgets/
+├── helpers/
+│   └── test_helper.dart
+├── integration/
+│   └── app_integration_test.dart
+└── widget_test.dart
+```
+
+### 🎯 Tipos de Testes
+
+1. **Unit Tests**: Testes unitários para ViewModels, Use Cases e Repositories
+2. **Widget Tests**: Testes de widgets individuais
+3. **Integration Tests**: Testes de integração da aplicação
+4. **Mock Tests**: Testes com mocks para dependências externas
+
+### 📈 Executando Testes
+
 ```bash
+# Executar todos os testes
 flutter test
-```
 
-### Executar testes específicos:
-```bash
-# Testes de uma feature
-flutter test test/features/characters/
-
-# Testes de integração
-flutter test test/integration/
-
-# Teste específico
-flutter test test/features/characters/domain/entities/character_test.dart
-```
-
-### Cobertura de testes:
-```bash
+# Executar testes com cobertura
 flutter test --coverage
+
+# Executar testes específicos
+flutter test test/features/welcome/presentation/viewmodels/welcome_viewmodel_test.dart
 ```
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+- Flutter SDK 3.8.0 ou superior
+- Dart SDK 3.8.0 ou superior
+- Android Studio / VS Code
+
+### Instalação
+
+1. **Clone o repositório**
+```bash
+git clone https://github.com/seu-usuario/list_rickandmorty_app.git
+cd list_rickandmorty_app
+```
+
+2. **Instale as dependências**
+```bash
+flutter pub get
+```
+
+3. **Execute a aplicação**
+```bash
+flutter run
+```
+
+## 📱 Funcionalidades Detalhadas
+
+### Welcome Screen
+- **Carregamento Manual**: Personagens são carregados apenas quando o usuário clica no botão
+- **Loading State**: Indicador de carregamento no botão durante o fetch
+- **Error Handling**: Tratamento de erros com mensagens específicas
+- **Clean UI**: Interface limpa com imagem, título e botão de ação
+
+### Character List
+- **Scroll Infinito**: Carregamento automático de mais personagens
+- **Loading Centralizado**: Indicador de carregamento centralizado na parte inferior
+- **Filter System**: Filtros por nome e status dos personagens
+- **Search**: Busca por nome dos personagens
+- **Refresh**: Pull-to-refresh para atualizar a lista
+
+### Character Details
+- **Informações Completas**: Dados detalhados de cada personagem
+- **Status Indicators**: Indicadores visuais de status (Alive, Dead, Unknown)
+- **Episode List**: Lista de episódios em que o personagem aparece
+- **Navigation**: Navegação fluida entre telas
+
+## 🔧 Tecnologias Utilizadas
+
+- **Flutter**: Framework de desenvolvimento
+- **Dio**: Cliente HTTP para requisições
+- **GetIt**: Injeção de dependência
+- **Mockito**: Framework de mocking para testes
+- **Cached Network Image**: Cache de imagens
+- **Material Design 3**: Design system moderno
+
+## 📊 API
+
+A aplicação consome a [Rick and Morty API](https://rickandmortyapi.com/) para obter os dados dos personagens.
+
+### Endpoints Utilizados
+- `GET /character`: Lista de personagens com paginação
+- `GET /character/{id}`: Detalhes de um personagem específico
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+
+## 👨‍💻 Autor
+
+**Erik** - Desenvolvedor Flutter
+
+## 🙏 Agradecimentos
+
+- [Rick and Morty API](https://rickandmortyapi.com/) por fornecer os dados
+- Comunidade Flutter por recursos e documentação
+- FTeam pelo desafio técnico que inspirou este projeto
 
 ---
 
-## 📱 Funcionalidades Implementadas
-
-### ✅ **Camada de Apresentação:**
-- **CharacterListPage**: Lista de personagens com design responsivo
-- **CharacterCard**: Widget reutilizável para exibir personagens
-- **CharacterViewModel**: Gerenciamento de estado MVVM
-
-### ✅ **Camada de Domínio:**
-- **Character**: Entidade principal do domínio
-- **CharacterRepository**: Interface para acesso a dados
-- **GetCharacters**: Caso de uso para buscar personagens
-
-### ✅ **Camada de Dados:**
-- **CharacterModel**: Modelo de dados com serialização JSON
-- **CharacterRemoteDatasource**: Interface para API
-- **CharacterRemoteDatasourceImpl**: Implementação com Dio
-- **CharacterRepositoryImpl**: Implementação do repositório
-
-### ✅ **Infraestrutura:**
-- **Dependency Injection**: Configuração com GetIt
-- **AppTheme**: Sistema de tema centralizado
-- **Testes**: Cobertura completa de todas as camadas
-- **App Icon**: Ícone personalizado gerado automaticamente
+**me aprovem por favor!!** 😄

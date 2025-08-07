@@ -24,7 +24,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
     });
 
-    testWidgets('deve exibir título "Rick and Morty" na interface do usuário', (
+    testWidgets('deve exibir título "Bem Vindo!" na interface do usuário', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(const ListRickAndMortyApp());
@@ -32,7 +32,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
 
-      expect(find.text('Rick and Morty'), findsOneWidget);
+      expect(find.text('Bem Vindo!'), findsOneWidget);
     });
 
     testWidgets('deve configurar tema Material3 para interface moderna', (

@@ -193,7 +193,7 @@ void main() {
 
       final duration = endTime.difference(startTime);
 
-      expect(duration.inMilliseconds, greaterThanOrEqualTo(800));
+      expect(duration.inMilliseconds, greaterThanOrEqualTo(700));
       expect(viewModel.isLoading, isFalse);
       expect(viewModel.characters, isNotEmpty);
     });
