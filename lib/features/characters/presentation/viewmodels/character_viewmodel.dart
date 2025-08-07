@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_filter_dialog.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_details_page.dart';
 
 class CharacterViewModel extends ChangeNotifier {
   final GetCharacters getCharacters;
@@ -8,10 +10,36 @@ class CharacterViewModel extends ChangeNotifier {
   CharacterViewModel(this.getCharacters);
 
   final List<Character> characters = [];
+  final List<Character> _allCharacters = [];
+  final ScrollController scrollController = ScrollController();
+  
   bool isLoading = false;
   String? errorMessage;
   int _currentPage = 1;
   bool _hasMore = true;
+  List<String> _activeFilters = [];
+
+  List<String> get activeFilters => _activeFilters;
+
+  void initialize() {
+    scrollController.addListener(_onScroll);
+    fetchCharacters();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  void _onScroll() {
+    if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200 &&
+        !isLoading &&
+        _hasMore) {
+      fetchCharacters(loadMore: true);
+    }
+  }
 
   Future<void> fetchCharacters({bool loadMore = false}) async {
     if (isLoading) return;
@@ -28,12 +56,13 @@ class CharacterViewModel extends ChangeNotifier {
         _hasMore = false;
       } else {
         if (loadMore) {
-          characters.addAll(result);
+          _allCharacters.addAll(result);
         } else {
-          characters.clear();
-          characters.addAll(result);
+          _allCharacters.clear();
+          _allCharacters.addAll(result);
         }
 
+        _applyFilters();
         _currentPage++;
       }
     } catch (e) {
@@ -60,7 +89,74 @@ class CharacterViewModel extends ChangeNotifier {
   void reset() {
     _currentPage = 1;
     _hasMore = true;
+    _allCharacters.clear();
     characters.clear();
+    _activeFilters.clear();
     fetchCharacters();
+  }
+
+  void applyFilters(List<String> filters) {
+    _activeFilters = filters;
+    _applyFilters();
+    notifyListeners();
+  }
+
+  void retry() {
+    fetchCharacters();
+  }
+
+  void _applyFilters() {
+    if (_activeFilters.isEmpty) {
+      characters.clear();
+      characters.addAll(_allCharacters);
+      return;
+    }
+            
+    List<Character> filteredCharacters = List.from(_allCharacters);
+    
+    for (final filter in _activeFilters) {
+      switch (filter) {
+        case 'name':
+          filteredCharacters.sort((a, b) => a.name.compareTo(b.name));
+          break;
+        case 'status':
+          filteredCharacters.sort((a, b) => a.status.compareTo(b.status));
+          break;
+      }
+    }
+
+    characters.clear();
+    characters.addAll(filteredCharacters);
+  }
+
+  void sortByName() {
+    _activeFilters = ['name'];
+    _applyFilters();
+    notifyListeners();
+  }
+
+  void sortByStatus() {
+    _activeFilters = ['status'];
+    _applyFilters();
+    notifyListeners();
+  }
+
+  void showFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CharacterFilterDialog(
+        onApplyFilters: applyFilters,
+        currentFilters: activeFilters,
+      ),
+    );
+  }
+
+  void navigateToCharacterDetails(BuildContext context, Character character) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CharacterDetailsPage(characterId: character.id),
+      ),
+    );
   }
 }

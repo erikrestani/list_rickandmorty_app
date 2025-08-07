@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:list_rickandmorty_app/core/di/injection_container.dart';
 import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
-import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_card.dart';
-import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_details_page.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_list_header.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_list_content.dart';
+import 'package:list_rickandmorty_app/shared/loading_widget.dart';
+import 'package:list_rickandmorty_app/shared/error_widget.dart';
 
 class CharacterListPage extends StatefulWidget {
   const CharacterListPage({super.key});
@@ -14,138 +16,57 @@ class CharacterListPage extends StatefulWidget {
 
 class _CharacterListPageState extends State<CharacterListPage> {
   late final CharacterViewModel _viewModel;
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _viewModel = sl<CharacterViewModel>();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 300));
-      if (mounted) {
-        _viewModel.fetchCharacters();
-      }
-    });
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-              _scrollController.position.maxScrollExtent - 200 &&
-          !_viewModel.isLoading) {
-        _viewModel.fetchCharacters(loadMore: true);
-      }
-    });
+    _viewModel.initialize();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _viewModel.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rick and Morty'),
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: AppTheme.textColor,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => _viewModel.reset(),
+      backgroundColor: AppTheme.backgroundColor,
+      body: Column(
+        children: [
+          CharacterListHeader(
+            onFilterPressed: () => _viewModel.showFilterDialog(context),
+            onRefreshPressed: _viewModel.reset,
+          ),
+          Expanded(
+            child: ListenableBuilder(
+              listenable: _viewModel,
+              builder: (context, child) {
+                if (_viewModel.isLoading && _viewModel.characters.isEmpty) {
+                  return const LoadingWidget();
+                }
+
+                if (_viewModel.errorMessage != null &&
+                    _viewModel.characters.isEmpty) {
+                  return ErrorDisplayWidget(
+                    errorMessage: _viewModel.errorMessage!,
+                    onRetry: _viewModel.retry,
+                  );
+                }
+
+                return CharacterListContent(
+                  characters: _viewModel.characters,
+                  isLoading: _viewModel.isLoading,
+                  scrollController: _viewModel.scrollController,
+                  onCharacterTap: (character) =>
+                      _viewModel.navigateToCharacterDetails(context, character),
+                );
+              },
+            ),
           ),
         ],
-      ),
-      body: Container(
-        decoration: AppTheme.backgroundDecoration,
-        child: ListenableBuilder(
-          listenable: _viewModel,
-          builder: (context, child) {
-            if (_viewModel.isLoading && _viewModel.characters.isEmpty) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(AppTheme.textColor),
-                ),
-              );
-            }
-
-            if (_viewModel.errorMessage != null &&
-                _viewModel.characters.isEmpty) {
-              return SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 64,
-                          color: AppTheme.errorColor,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          _viewModel.errorMessage!,
-                          style: AppTheme.subtitleStyle.copyWith(
-                            color: AppTheme.errorColor,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: () => _viewModel.fetchCharacters(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.primaryColor,
-                            foregroundColor: AppTheme.textColor,
-                          ),
-                          child: const Text('Tentar Novamente'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async => _viewModel.reset(),
-              color: AppTheme.primaryColor,
-              child: ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemCount: _viewModel.characters.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == _viewModel.characters.length) {
-                    return _viewModel.isLoading
-                        ? const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Center(child: CircularProgressIndicator()),
-                          )
-                        : const SizedBox();
-                  }
-
-                  final character = _viewModel.characters[index];
-                  return CharacterCard(
-                    character: character,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CharacterDetailsPage(characterId: character.id),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            );
-          },
-        ),
       ),
     );
   }

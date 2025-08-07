@@ -4,24 +4,23 @@ import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_ch
 
 enum CharacterDetailsState { initial, loading, loaded, error }
 
-class CharacterDetailsViewModel {
+class CharacterDetailsViewModel extends ChangeNotifier {
   final GetCharacterById getCharacterById;
-  VoidCallback? onStateChanged;
 
   CharacterDetailsViewModel(this.getCharacterById);
 
   CharacterDetailsState _state = CharacterDetailsState.initial;
   Character? _character;
-  String? _errorMessage;
+  String _errorMessage = '';
 
   CharacterDetailsState get state => _state;
   Character? get character => _character;
-  String? get errorMessage => _errorMessage;
+  String get errorMessage => _errorMessage;
 
   Future<void> loadCharacter(int id) async {
     _state = CharacterDetailsState.loading;
-    _errorMessage = null;
-    onStateChanged?.call();
+    _errorMessage = '';
+    notifyListeners();
 
     try {
       _character = await getCharacterById(id);
@@ -31,6 +30,6 @@ class CharacterDetailsViewModel {
       _state = CharacterDetailsState.error;
     }
 
-    onStateChanged?.call();
+    notifyListeners();
   }
 }
