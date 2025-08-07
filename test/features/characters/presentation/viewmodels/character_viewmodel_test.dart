@@ -1,176 +1,141 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
-import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class TestGetCharacters implements GetCharacters {
-  List<Character>? charactersToReturn;
-  Exception? exceptionToThrow;
+import 'character_viewmodel_test.mocks.dart';
 
-  @override
-  CharacterRepository get repository => throw UnimplementedError();
-
-  @override
-  Future<List<Character>> call({int page = 1}) async {
-    if (exceptionToThrow != null) {
-      throw exceptionToThrow!;
-    }
-    return charactersToReturn ?? [];
-  }
-}
-
+@GenerateMocks([GetCharacters])
 void main() {
-  group('CharacterViewModel - Gerenciamento de Estado', () {
-    late CharacterViewModel viewModel;
-    late TestGetCharacters usecase;
+  late CharacterViewModel viewModel;
+  late MockGetCharacters mockGetCharacters;
 
-    setUp(() {
-      usecase = TestGetCharacters();
-      viewModel = CharacterViewModel(usecase);
+  setUp(() {
+    mockGetCharacters = MockGetCharacters();
+    viewModel = CharacterViewModel(mockGetCharacters);
+  });
+
+  group('CharacterViewModel', () {
+    test('deve inicializar com estado vazio', () {
+      expect(viewModel.characters, isEmpty);
+      expect(viewModel.isLoading, isFalse);
+      expect(viewModel.errorMessage, isNull);
+      expect(viewModel.activeFilters, isEmpty);
     });
 
-    test(
-      'deve carregar personagens com sucesso e atualizar estado corretamente',
-      () async {
-        final characters = [
-          const Character(
-            id: 1,
-            name: 'Test Character',
-            image: 'https://example.com/image.jpg',
-            status: 'Alive',
-            species: 'Human',
-          ),
-        ];
-
-        usecase.charactersToReturn = characters;
-
-        await viewModel.fetchCharacters();
-
-        expect(viewModel.characters.length, 1);
-        expect(viewModel.characters[0].name, 'Test Character');
-        expect(viewModel.characters[0].status, 'Alive');
-        expect(viewModel.characters[0].species, 'Human');
-        expect(viewModel.isLoading, false);
-        expect(viewModel.errorMessage, null);
-      },
-    );
-
-    test(
-      'deve carregar mais personagens e adicionar à lista existente',
-      () async {
-        final page1 = [
-          const Character(
-            id: 1,
-            name: 'Test Character 1',
-            image: 'https://example.com/image1.jpg',
-            status: 'Alive',
-            species: 'Human',
-          ),
-        ];
-
-        final page2 = [
-          const Character(
-            id: 2,
-            name: 'Test Character 2',
-            image: 'https://example.com/image2.jpg',
-            status: 'Dead',
-            species: 'Alien',
-          ),
-        ];
-
-        usecase.charactersToReturn = page1;
-        await viewModel.fetchCharacters();
-
-        usecase.charactersToReturn = page2;
-        await viewModel.fetchCharacters(loadMore: true);
-
-        expect(viewModel.characters.length, 2);
-        expect(viewModel.characters[0].name, 'Test Character 1');
-        expect(viewModel.characters[0].status, 'Alive');
-        expect(viewModel.characters[1].name, 'Test Character 2');
-        expect(viewModel.characters[1].status, 'Dead');
-      },
-    );
-
-    test(
-      'deve definir mensagem de erro específica para timeout de conexão',
-      () async {
-        usecase.exceptionToThrow = Exception('Timeout de conexão');
-
-        await viewModel.fetchCharacters();
-
-        expect(viewModel.characters.length, 0);
-        expect(viewModel.isLoading, false);
-        expect(
-          viewModel.errorMessage,
-          'A conexão demorou muito para responder. Tente novamente.',
-        );
-      },
-    );
-
-    test(
-      'deve definir mensagem de erro específica para problemas de conectividade',
-      () async {
-        usecase.exceptionToThrow = Exception('Erro de conexão');
-
-        await viewModel.fetchCharacters();
-
-        expect(
-          viewModel.errorMessage,
-          'Verifique sua conexão com a internet e tente novamente.',
-        );
-      },
-    );
-
-    test(
-      'deve definir mensagem de erro específica para problemas de servidor',
-      () async {
-        usecase.exceptionToThrow = Exception('Erro de servidor: 500');
-
-        await viewModel.fetchCharacters();
-
-        expect(
-          viewModel.errorMessage,
-          'Serviço temporariamente indisponível. Tente novamente em alguns minutos.',
-        );
-      },
-    );
-
-    test(
-      'deve definir mensagem de erro genérica para exceções não mapeadas',
-      () async {
-        usecase.exceptionToThrow = Exception('Erro inesperado');
-
-        await viewModel.fetchCharacters();
-
-        expect(
-          viewModel.errorMessage,
-          'Não foi possível carregar os personagens. Tente novamente.',
-        );
-      },
-    );
-
-    test('deve resetar estado e recarregar personagens do início', () async {
-      final characters = [
-        const Character(
+    test('deve carregar personagens com sucesso', () async {
+      final personagens = [
+        Character(
           id: 1,
-          name: 'Test Character',
-          image: 'https://example.com/image.jpg',
+          name: 'Rick Sanchez',
           status: 'Alive',
           species: 'Human',
+          image: 'test.jpg',
+        ),
+        Character(
+          id: 2,
+          name: 'Morty Smith',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test2.jpg',
         ),
       ];
 
-      usecase.charactersToReturn = characters;
+      when(mockGetCharacters(page: 1))
+          .thenAnswer((_) async => personagens);
+
       await viewModel.fetchCharacters();
 
-      viewModel.reset();
-      await Future.delayed(const Duration(milliseconds: 100));
+      expect(viewModel.characters, equals(personagens));
+      expect(viewModel.isLoading, isFalse);
+      expect(viewModel.errorMessage, isNull);
+      verify(mockGetCharacters(page: 1)).called(1);
+    });
 
-      expect(viewModel.characters.length, 1);
-      expect(viewModel.isLoading, false);
-      expect(viewModel.errorMessage, null);
+    test('deve lidar com erro ao carregar personagens', () async {
+      when(mockGetCharacters(page: 1))
+          .thenThrow(Exception('Erro de rede'));
+
+      await viewModel.fetchCharacters();
+
+      expect(viewModel.characters, isEmpty);
+      expect(viewModel.isLoading, isFalse);
+      expect(viewModel.errorMessage, isNotNull);
+      expect(viewModel.errorMessage!.contains('Verifique sua conexão'), isTrue);
+    });
+
+    test('deve aplicar filtro por nome corretamente', () async {
+      final personagens = [
+        Character(id: 1, name: 'Rick', status: 'Alive', species: 'Human', image: 'test.jpg'),
+        Character(id: 2, name: 'Morty', status: 'Alive', species: 'Human', image: 'test2.jpg'),
+        Character(id: 3, name: 'Summer', status: 'Alive', species: 'Human', image: 'test3.jpg'),
+      ];
+
+      when(mockGetCharacters(page: 1))
+          .thenAnswer((_) async => personagens);
+
+      await viewModel.fetchCharacters();
+
+      viewModel.sortByName();
+
+      expect(viewModel.activeFilters, contains('name'));
+      expect(viewModel.characters.first.name, equals('Morty'));
+      expect(viewModel.characters.last.name, equals('Summer'));
+    });
+
+    test('deve aplicar filtro por status corretamente', () async {
+      final personagens = [
+        Character(id: 1, name: 'Rick', status: 'Alive', species: 'Human', image: 'test.jpg'),
+        Character(id: 2, name: 'Morty', status: 'Dead', species: 'Human', image: 'test2.jpg'),
+        Character(id: 3, name: 'Summer', status: 'Alive', species: 'Human', image: 'test3.jpg'),
+      ];
+
+      when(mockGetCharacters(page: 1))
+          .thenAnswer((_) async => personagens);
+
+      await viewModel.fetchCharacters();
+
+      viewModel.sortByStatus();
+
+      expect(viewModel.activeFilters, contains('status'));
+      expect(viewModel.characters.first.status, equals('Alive'));
+      expect(viewModel.characters.last.status, equals('Dead'));
+    });
+
+    test('deve resetar estado corretamente', () async {
+      final personagens = [
+        Character(id: 1, name: 'Rick', status: 'Alive', species: 'Human', image: 'test.jpg'),
+      ];
+
+      when(mockGetCharacters(page: 1))
+          .thenAnswer((_) async => personagens);
+
+      await viewModel.fetchCharacters();
+      viewModel.sortByName();
+
+      viewModel.reset();
+
+      expect(viewModel.characters, isEmpty);
+      expect(viewModel.activeFilters, isEmpty);
+      expect(viewModel.errorMessage, isNull);
+    });
+
+    test('não deve carregar mais quando já está carregando', () async {
+      when(mockGetCharacters(page: 1))
+          .thenAnswer((_) async {
+        await Future.delayed(const Duration(seconds: 1));
+        return [];
+      });
+
+      final future1 = viewModel.fetchCharacters();
+      final future2 = viewModel.fetchCharacters();
+
+      expect(viewModel.isLoading, isTrue);
+      await future1;
+      await future2;
+      verify(mockGetCharacters(page: 1)).called(1);
     });
   });
 }

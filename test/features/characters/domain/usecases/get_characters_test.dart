@@ -2,93 +2,87 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class TestRepository implements CharacterRepository {
-  List<Character>? charactersToReturn;
-  Character? characterToReturn;
-  Exception? exceptionToThrow;
+import 'get_characters_test.mocks.dart';
 
-  @override
-  Future<List<Character>> getCharacters(int page) async {
-    if (exceptionToThrow != null) {
-      throw exceptionToThrow!;
-    }
-    return charactersToReturn ?? [];
-  }
-
-  @override
-  Future<Character> getCharacterById(int id) async {
-    if (exceptionToThrow != null) {
-      throw exceptionToThrow!;
-    }
-    return characterToReturn!;
-  }
-}
-
+@GenerateMocks([CharacterRepository])
 void main() {
-  group('GetCharacters - Caso de Uso', () {
-    late GetCharacters usecase;
-    late TestRepository repository;
+  late GetCharacters usecase;
+  late MockCharacterRepository mockRepository;
 
-    setUp(() {
-      repository = TestRepository();
-      usecase = GetCharacters(repository);
+  setUp(() {
+    mockRepository = MockCharacterRepository();
+    usecase = GetCharacters(mockRepository);
+  });
+
+  group('GetCharacters', () {
+    test('deve obter personagens do repository', () async {
+      final personagens = [
+        Character(
+          id: 1,
+          name: 'Rick Sanchez',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test.jpg',
+        ),
+        Character(
+          id: 2,
+          name: 'Morty Smith',
+          status: 'Alive',
+          species: 'Human',
+          image: 'test2.jpg',
+        ),
+      ];
+
+      when(
+        mockRepository.getCharacters(1),
+      ).thenAnswer((_) async => personagens);
+
+      final result = await usecase(page: 1);
+
+      expect(result, equals(personagens));
+      verify(mockRepository.getCharacters(1)).called(1);
     });
 
-    test(
-      'deve retornar lista de personagens do repository com dados completos',
-      () async {
-        final characters = [
-          const Character(
-            id: 1,
-            name: 'Test Character 1',
-            image: 'https://example.com/image1.jpg',
-            status: 'Alive',
-            species: 'Human',
-          ),
-          const Character(
-            id: 2,
-            name: 'Test Character 2',
-            image: 'https://example.com/image2.jpg',
-            status: 'Dead',
-            species: 'Alien',
-          ),
-        ];
+    test('deve obter personagens da página 2', () async {
+      final personagens = [
+        Character(
+          id: 21,
+          name: 'Aqua Morty',
+          status: 'Dead',
+          species: 'Humanoid',
+          image: 'test3.jpg',
+        ),
+      ];
 
-        repository.charactersToReturn = characters;
+      when(
+        mockRepository.getCharacters(2),
+      ).thenAnswer((_) async => personagens);
 
-        final result = await usecase(page: 1);
+      final result = await usecase(page: 2);
 
-        expect(result.length, 2);
-        expect(result[0].id, 1);
-        expect(result[0].name, 'Test Character 1');
-        expect(result[0].status, 'Alive');
-        expect(result[0].species, 'Human');
-        expect(result[1].id, 2);
-        expect(result[1].name, 'Test Character 2');
-        expect(result[1].status, 'Dead');
-        expect(result[1].species, 'Alien');
-      },
-    );
+      expect(result, equals(personagens));
+      verify(mockRepository.getCharacters(2)).called(1);
+    });
 
-    test(
-      'deve usar página 1 como padrão quando número de página não for especificado',
-      () async {
-        repository.charactersToReturn = [];
+    test('deve retornar lista vazia quando repository retorna vazio', () async {
+      when(mockRepository.getCharacters(1)).thenAnswer((_) async => []);
 
-        await usecase();
+      final result = await usecase(page: 1);
 
-        expect(repository.charactersToReturn, isNotNull);
-      },
-    );
+      expect(result, isEmpty);
+      verify(mockRepository.getCharacters(1)).called(1);
+    });
 
-    test(
-      'deve propagar exceção do repository para camada de apresentação',
-      () async {
-        repository.exceptionToThrow = Exception('Erro de rede');
+    test('deve propagar erros do repository', () async {
+      when(
+        mockRepository.getCharacters(1),
+      ).thenThrow(Exception('Erro do repository'));
 
-        expect(() => usecase(page: 1), throwsA(isA<Exception>()));
-      },
-    );
+      expect(() => usecase(page: 1), throwsException);
+      verify(mockRepository.getCharacters(1)).called(1);
+    });
   });
 }

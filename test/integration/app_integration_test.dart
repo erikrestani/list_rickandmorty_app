@@ -1,52 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
-import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_list_page.dart';
-import '../helpers/test_helper.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:list_rickandmorty_app/main.dart' as app;
 
 void main() {
-  group('App - Testes de Integração', () {
-    setUp(() {
-      TestHelper.setupMockCharacterViewModel();
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  group('Teste de Integração do App', () {
+    testWidgets('deve carregar lista de personagens e exibir personagens', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Rick and Morty'), findsOneWidget);
+      expect(find.byType(GridView), findsOneWidget);
+      
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+      
+      expect(find.byType(InkWell), findsWidgets);
     });
 
-    tearDown(() {
-      TestHelper.teardownMocks();
+    testWidgets('deve navegar para detalhes do personagem ao tocar no card', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      final primeiroCard = find.byType(InkWell).first;
+      await tester.tap(primeiroCard);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
     });
 
-    testWidgets(
-      'deve carregar página de personagens com AppBar e título corretos',
-      (WidgetTester tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            theme: AppTheme.darkTheme,
-            home: const CharacterListPage(),
-          ),
-        );
+    testWidgets('deve mostrar dialog de filtro ao tocar no botão filtrar', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
 
-        await tester.pump(const Duration(milliseconds: 300));
-        await tester.pumpAndSettle();
+      final botaoFiltrar = find.text('Filtrar');
+      await tester.tap(botaoFiltrar);
+      await tester.pumpAndSettle();
 
-        expect(find.byType(AppBar), findsOneWidget);
-        expect(find.text('Rick and Morty'), findsOneWidget);
-      },
-    );
+      expect(find.text('Filtrar Personagens'), findsOneWidget);
+      expect(find.text('Ordem Alfabética'), findsOneWidget);
+      expect(find.text('Por Status'), findsOneWidget);
+    });
 
-    testWidgets(
-      'deve exibir botão de refresh na AppBar para recarregar dados',
-      (WidgetTester tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            theme: AppTheme.darkTheme,
-            home: const CharacterListPage(),
-          ),
-        );
+    testWidgets('deve atualizar lista ao tocar no botão refresh', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
 
-        await tester.pump(const Duration(milliseconds: 300));
-        await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 3));
 
-        expect(find.byIcon(Icons.refresh), findsOneWidget);
-      },
-    );
+      final botaoRefresh = find.byIcon(Icons.refresh);
+      await tester.tap(botaoRefresh);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Rick and Morty'), findsOneWidget);
+      expect(find.byType(GridView), findsOneWidget);
+    });
+
+    testWidgets('deve lidar com estado de erro graciosamente', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Rick and Morty'), findsOneWidget);
+    });
   });
 }

@@ -12,7 +12,7 @@ class CharacterViewModel extends ChangeNotifier {
   final List<Character> characters = [];
   final List<Character> _allCharacters = [];
   final ScrollController scrollController = ScrollController();
-  
+
   bool isLoading = false;
   String? errorMessage;
   int _currentPage = 1;
@@ -111,9 +111,9 @@ class CharacterViewModel extends ChangeNotifier {
       characters.addAll(_allCharacters);
       return;
     }
-            
+
     List<Character> filteredCharacters = List.from(_allCharacters);
-    
+
     for (final filter in _activeFilters) {
       switch (filter) {
         case 'name':

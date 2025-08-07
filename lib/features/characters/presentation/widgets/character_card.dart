@@ -28,10 +28,7 @@ class CharacterCard extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                    color: AppTheme.borderColorNeon,
-                    width: 2,
-                  ),
+                  border: Border.all(color: AppTheme.borderColorNeon, width: 2),
                   boxShadow: [
                     BoxShadow(
                       color: AppTheme.neonShadowColor,
@@ -50,7 +47,9 @@ class CharacterCard extends StatelessWidget {
                       child: const Center(
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(AppTheme.secondaryColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppTheme.secondaryColor,
+                          ),
                         ),
                       ),
                     ),
@@ -66,7 +65,7 @@ class CharacterCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              
+
               Text(
                 character.name,
                 style: AppTheme.characterNameStyle.copyWith(
@@ -78,7 +77,7 @@ class CharacterCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -100,9 +99,7 @@ class CharacterCard extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text(
                     character.status,
-                    style: AppTheme.characterStatusStyle.copyWith(
-                      fontSize: 12,
-                    ),
+                    style: AppTheme.characterStatusStyle.copyWith(fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ],

@@ -8,7 +8,9 @@ class AppTheme {
   static const Color accentColor = Color(0xFF60A5FA); // Azul neon claro
   static const Color backgroundColor = Color(0xFF0F172A); // Fundo escuro
   static const Color surfaceColor = Color(0xFF1E293B); // Superfície escura
-  static const Color cardBackgroundColor = Color(0x0A3B82F6); // Azul neon muito sutil
+  static const Color cardBackgroundColor = Color(
+    0x0A3B82F6,
+  ); // Azul neon sutil
   static const Color textColor = Colors.white;
   static const Color textSecondaryColor = Color(0xFF94A3B8);
   static const Color cardColor = Color(0x1A3B82F6); // Azul neon transparente
@@ -21,14 +23,24 @@ class AppTheme {
 
   // Cores de sombra e borda
   static const Color shadowColor = Color(0x20000000); // Sombra sutil
-  static const Color borderColorLight = Color(0x4D3B82F6); // Azul neon mais intenso
-  static const Color borderColorNeon = Color(0x803B82F6); // Azul neon mais brilhante
+  static const Color borderColorLight = Color(
+    0x4D3B82F6,
+  ); // Azul neon mais intenso
+  static const Color borderColorNeon = Color(
+    0x803B82F6,
+  ); // Azul neon mais brilhante
   static const Color borderColorDark = Color(0xFF1E293B);
-  static const Color statusShadowColor = Color(0x4D000000); // Sombra para status
-  static const Color neonShadowColor = Color(0x403B82F6); // Sombra neon específica
-  static const Color neonGlowColor = Color(0x603B82F6); // Brilho neon específico
+  static const Color statusShadowColor = Color(
+    0x4D000000,
+  ); // Sombra para status
+  static const Color neonShadowColor = Color(
+    0x403B82F6,
+  ); // Sombra neon específica
+  static const Color neonGlowColor = Color(
+    0x603B82F6,
+  ); // Brilho neon específico
 
-  // Gradientes sutis
+  // Gradientes 
   static const LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
@@ -165,18 +177,11 @@ class AppTheme {
     color: textSecondaryColor,
   );
 
-  // Novos estilos para o design moderno
   static const TextStyle characterNameLargeStyle = TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.bold,
     color: textColor,
-    shadows: [
-      Shadow(
-        offset: Offset(0, 2),
-        blurRadius: 4,
-        color: shadowColor,
-      ),
-    ],
+    shadows: [Shadow(offset: Offset(0, 2), blurRadius: 4, color: shadowColor)],
   );
 
   static const TextStyle cardTitleStyle = TextStyle(
@@ -227,7 +232,6 @@ class AppTheme {
     ],
   );
 
-  static BoxDecoration get headerDecoration => const BoxDecoration(
-    gradient: headerGradient,
-  );
+  static BoxDecoration get headerDecoration =>
+      const BoxDecoration(gradient: headerGradient);
 }

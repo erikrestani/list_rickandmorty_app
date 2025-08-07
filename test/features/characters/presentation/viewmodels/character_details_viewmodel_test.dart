@@ -1,25 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
-import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_character_by_id.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_details_viewmodel.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-class MockGetCharacterById implements GetCharacterById {
-  Character? characterToReturn;
-  Exception? exceptionToThrow;
+import 'character_details_viewmodel_test.mocks.dart';
 
-  @override
-  CharacterRepository get repository => throw UnimplementedError();
-
-  @override
-  Future<Character> call(int id) async {
-    if (exceptionToThrow != null) {
-      throw exceptionToThrow!;
-    }
-    return characterToReturn!;
-  }
-}
-
+@GenerateMocks([GetCharacterById])
 void main() {
   late CharacterDetailsViewModel viewModel;
   late MockGetCharacterById mockGetCharacterById;
@@ -29,46 +17,47 @@ void main() {
     viewModel = CharacterDetailsViewModel(mockGetCharacterById);
   });
 
-  const testCharacter = Character(
-    id: 1,
-    name: 'Rick Sanchez',
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-    status: 'Alive',
-    species: 'Human',
-  );
+  group('CharacterDetailsViewModel', () {
+    test('estado inicial deve ser initial', () {
+      expect(viewModel.state, equals(CharacterDetailsState.initial));
+      expect(viewModel.character, isNull);
+      expect(viewModel.errorMessage, equals(''));
+    });
 
-  test('initial state should be initial', () {
-    expect(viewModel.state, CharacterDetailsState.initial);
-    expect(viewModel.character, null);
-    expect(viewModel.errorMessage, null);
-  });
+    test('loadCharacter deve atualizar estado para loading depois loaded', () async {
+      final personagem = Character(
+        id: 1,
+        name: 'Rick Sanchez',
+        status: 'Alive',
+        species: 'Human',
+        image: 'test.jpg',
+      );
 
-  test('loadCharacter should update state to loading then loaded', () async {
-    mockGetCharacterById.characterToReturn = testCharacter;
+      when(mockGetCharacterById(1))
+          .thenAnswer((_) async => personagem);
 
-    final future = viewModel.loadCharacter(1);
+      final future = viewModel.loadCharacter(1);
 
-    expect(viewModel.state, CharacterDetailsState.loading);
-    expect(viewModel.character, null);
-    expect(viewModel.errorMessage, null);
+      expect(viewModel.state, equals(CharacterDetailsState.loading));
+      expect(viewModel.errorMessage, equals(''));
 
-    await future;
+      await future;
 
-    expect(viewModel.state, CharacterDetailsState.loaded);
-    expect(viewModel.character, testCharacter);
-    expect(viewModel.errorMessage, null);
-  });
+      expect(viewModel.state, equals(CharacterDetailsState.loaded));
+      expect(viewModel.character, equals(personagem));
+      expect(viewModel.errorMessage, equals(''));
+      verify(mockGetCharacterById(1)).called(1);
+    });
 
-  test(
-    'loadCharacter should update state to error when exception occurs',
-    () async {
-      mockGetCharacterById.exceptionToThrow = Exception('Test error');
+    test('loadCharacter deve lidar com erros', () async {
+      when(mockGetCharacterById(1))
+          .thenThrow(Exception('Personagem não encontrado'));
 
       await viewModel.loadCharacter(1);
 
-      expect(viewModel.state, CharacterDetailsState.error);
-      expect(viewModel.character, null);
-      expect(viewModel.errorMessage, 'Exception: Test error');
-    },
-  );
+      expect(viewModel.state, equals(CharacterDetailsState.error));
+      expect(viewModel.character, isNull);
+      expect(viewModel.errorMessage, contains('Personagem não encontrado'));
+    });
+  });
 }

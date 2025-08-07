@@ -28,9 +28,7 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: AppTheme.surfaceColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -66,21 +64,17 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
                 ],
               ),
               const SizedBox(height: 24),
-              
+
               _buildFilterOption(
                 'Ordem Alfabética',
                 'name',
                 Icons.sort_by_alpha,
               ),
               const SizedBox(height: 16),
-              
-              _buildFilterOption(
-                'Por Status',
-                'status',
-                Icons.favorite,
-              ),
+
+              _buildFilterOption('Por Status', 'status', Icons.favorite),
               const SizedBox(height: 24),
-              
+
               Row(
                 children: [
                   Expanded(
@@ -133,7 +127,7 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
 
   Widget _buildFilterOption(String title, String filterKey, IconData icon) {
     final isSelected = _selectedFilters.contains(filterKey);
-    
+
     return InkWell(
       onTap: () {
         setState(() {
@@ -151,7 +145,9 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
           color: isSelected ? AppTheme.cardBackgroundColor : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppTheme.borderColorNeon : AppTheme.borderColorLight,
+            color: isSelected
+                ? AppTheme.borderColorNeon
+                : AppTheme.borderColorLight,
             width: 1,
           ),
         ),
@@ -159,7 +155,9 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
           children: [
             Icon(
               icon,
-              color: isSelected ? AppTheme.secondaryColor : AppTheme.textSecondaryColor,
+              color: isSelected
+                  ? AppTheme.secondaryColor
+                  : AppTheme.textSecondaryColor,
               size: 20,
             ),
             const SizedBox(width: 12),
@@ -167,7 +165,9 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: isSelected ? AppTheme.textColor : AppTheme.textSecondaryColor,
+                  color: isSelected
+                      ? AppTheme.textColor
+                      : AppTheme.textSecondaryColor,
                   fontSize: 16,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 ),
@@ -177,19 +177,19 @@ class _CharacterFilterDialogState extends State<CharacterFilterDialog> {
               width: 20,
               height: 20,
               decoration: BoxDecoration(
-                color: isSelected ? AppTheme.secondaryColor : Colors.transparent,
+                color: isSelected
+                    ? AppTheme.secondaryColor
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
-                  color: isSelected ? AppTheme.secondaryColor : AppTheme.textSecondaryColor,
+                  color: isSelected
+                      ? AppTheme.secondaryColor
+                      : AppTheme.textSecondaryColor,
                   width: 2,
                 ),
               ),
               child: isSelected
-                  ? const Icon(
-                      Icons.check,
-                      color: AppTheme.textColor,
-                      size: 14,
-                    )
+                  ? const Icon(Icons.check, color: AppTheme.textColor, size: 14)
                   : null,
             ),
           ],
