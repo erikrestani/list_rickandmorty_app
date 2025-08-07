@@ -1,5 +1,5 @@
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
-import 'package:test_fteam/features/characters/domain/repositories/character_repository.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
 
 class GetCharacters {
   final CharacterRepository repository;

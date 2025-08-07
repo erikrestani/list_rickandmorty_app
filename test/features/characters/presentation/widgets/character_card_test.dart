@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
-import 'package:test_fteam/features/characters/presentation/widgets/character_card.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_card.dart';
 
 void main() {
   group('CharacterCard - Widget de Exibição', () {

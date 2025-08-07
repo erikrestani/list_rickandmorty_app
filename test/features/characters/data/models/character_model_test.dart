@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/features/characters/data/models/character_model.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/data/models/character_model.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
 
 void main() {
   group('CharacterModel - Conversão de Dados', () {

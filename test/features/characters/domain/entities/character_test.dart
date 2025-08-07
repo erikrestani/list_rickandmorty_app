@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
 
 void main() {
   group('Character - Entidade de Domínio', () {

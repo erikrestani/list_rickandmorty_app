@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/main.dart';
+import 'package:list_rickandmorty_app/main.dart';
 import 'helpers/test_helper.dart';
 
 void main() {
@@ -16,7 +16,7 @@ void main() {
     testWidgets('deve renderizar aplicação sem travar e exibir MaterialApp', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
+      await tester.pumpWidget(const ListRickAndMortyApp());
 
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
@@ -27,7 +27,7 @@ void main() {
     testWidgets('deve exibir título "Rick and Morty" na interface do usuário', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
+      await tester.pumpWidget(const ListRickAndMortyApp());
 
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
@@ -38,7 +38,7 @@ void main() {
     testWidgets('deve configurar tema Material3 para interface moderna', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
+      await tester.pumpWidget(const ListRickAndMortyApp());
 
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
@@ -50,7 +50,7 @@ void main() {
     testWidgets('deve ocultar banner de debug para experiência de produção', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
+      await tester.pumpWidget(const ListRickAndMortyApp());
 
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
@@ -62,7 +62,7 @@ void main() {
     testWidgets('deve aplicar esquema de cores personalizado com tema verde', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(const RickAndMortyApp());
+      await tester.pumpWidget(const ListRickAndMortyApp());
 
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();

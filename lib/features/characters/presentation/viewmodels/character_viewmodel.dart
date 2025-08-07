@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
-import 'package:test_fteam/features/characters/domain/usecases/get_characters.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
 
 class CharacterViewModel extends ChangeNotifier {
   final GetCharacters getCharacters;

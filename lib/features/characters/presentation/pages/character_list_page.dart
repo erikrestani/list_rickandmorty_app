@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:test_fteam/core/di/injection_container.dart';
-import 'package:test_fteam/core/theme/app_theme.dart';
-import 'package:test_fteam/features/characters/presentation/viewmodels/character_viewmodel.dart';
-import 'package:test_fteam/features/characters/presentation/widgets/character_card.dart';
+import 'package:list_rickandmorty_app/core/di/injection_container.dart';
+import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_card.dart';
 
 class CharacterListPage extends StatefulWidget {
   const CharacterListPage({super.key});

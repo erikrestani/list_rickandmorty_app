@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:test_fteam/core/theme/app_theme.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
 
 class CharacterCard extends StatelessWidget {
   final Character character;

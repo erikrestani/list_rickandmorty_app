@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
-import 'package:test_fteam/features/characters/domain/usecases/get_characters.dart';
-import 'package:test_fteam/features/characters/presentation/viewmodels/character_viewmodel.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
 
 class TestHelper {
   static Character createCharacter({

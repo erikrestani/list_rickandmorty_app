@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource.dart';
-import 'package:test_fteam/features/characters/data/models/character_model.dart';
+import 'package:list_rickandmorty_app/features/characters/data/models/character_model.dart';
+import 'package:list_rickandmorty_app/features/characters/data/datasources/character_remote_datasource.dart';
 
 class CharacterRemoteDatasourceImpl implements CharacterRemoteDatasource {
   final Dio dio;

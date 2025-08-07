@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/core/theme/app_theme.dart';
-import 'package:test_fteam/features/characters/presentation/pages/character_list_page.dart';
+import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_list_page.dart';
 import '../helpers/test_helper.dart';
 
 void main() {

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:test_fteam/core/di/injection_container.dart' as di;
-import 'package:test_fteam/core/theme/app_theme.dart';
-import 'package:test_fteam/features/characters/presentation/pages/character_list_page.dart';
+import 'package:list_rickandmorty_app/core/di/injection_container.dart' as di;
+import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_list_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-  runApp(const RickAndMortyApp());
+  runApp(const ListRickAndMortyApp());
 }
 
-class RickAndMortyApp extends StatelessWidget {
-  const RickAndMortyApp({super.key});
+class ListRickAndMortyApp extends StatelessWidget {
+  const ListRickAndMortyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Rick and Morty',
+      title: 'List Rick and Morty',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       home: const CharacterListPage(),

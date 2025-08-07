@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
-import 'package:test_fteam/features/characters/domain/repositories/character_repository.dart';
-import 'package:test_fteam/features/characters/domain/usecases/get_characters.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
 
 class TestRepository implements CharacterRepository {
   List<Character>? charactersToReturn;

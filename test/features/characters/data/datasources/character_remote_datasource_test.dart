@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:list_rickandmorty_app/features/characters/data/datasources/character_remote_datasource_impl.dart';
+import 'package:list_rickandmorty_app/features/characters/data/models/character_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource_impl.dart';
-import 'package:test_fteam/features/characters/data/models/character_model.dart';
+
 
 import 'character_remote_datasource_test.mocks.dart';
 

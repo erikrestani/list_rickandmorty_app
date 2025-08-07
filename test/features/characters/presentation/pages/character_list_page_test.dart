@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_fteam/core/theme/app_theme.dart';
+import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
 
 void main() {
   group('CharacterListPage - Interface do Usuário', () {

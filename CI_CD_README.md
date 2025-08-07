@@ -1,4 +1,4 @@
-# 🚀 CI/CD - Testes Automatizados
+# 🚀 CI/CD - List Rick and Morty App
 
 Sistema simples de testes automatizados para Flutter.
 

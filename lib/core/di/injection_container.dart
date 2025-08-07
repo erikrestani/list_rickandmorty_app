@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource.dart';
-import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource_impl.dart';
-import 'package:test_fteam/features/characters/domain/repositories/character_repository.dart';
-import 'package:test_fteam/features/characters/domain/repositories/character_repository_impl.dart';
-import 'package:test_fteam/features/characters/domain/usecases/get_characters.dart';
-import 'package:test_fteam/features/characters/presentation/viewmodels/character_viewmodel.dart';
+import 'package:list_rickandmorty_app/features/characters/data/datasources/character_remote_datasource.dart';
+import 'package:list_rickandmorty_app/features/characters/data/datasources/character_remote_datasource_impl.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository_impl.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
 
 final GetIt sl = GetIt.instance;
 

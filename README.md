@@ -1,4 +1,4 @@
-# Rick and Morty App
+# List Rick and Morty App
 
 Aplicativo Flutter desenvolvido para teste técnico da FTeam, consumindo a [Rick and Morty API](https://rickandmortyapi.com/) com foco em arquitetura limpa (Clean Architecture), princípios SOLID e organização modular por feature.
 
@@ -15,6 +15,39 @@ Aplicativo Flutter desenvolvido para teste técnico da FTeam, consumindo a [Rick
 - 🎨 Tema centralizado e responsivo
 - 🔧 Injeção de dependência com GetIt
 - 📱 App icon personalizado
+
+---
+
+## 🏗️ Escalabilidade e Arquitetura
+
+### **Por que este projeto é escalável?**
+
+Embora seja um projeto simples para teste técnico, foi desenvolvido com foco em **escalabilidade** e **boas práticas** para demonstrar conhecimentos em arquitetura de software:
+
+- **Clean Architecture**: Separação clara de responsabilidades
+- **Modularização por Feature**: Cada funcionalidade é um módulo independente
+- **Injeção de Dependência**: Facilita testes e manutenção
+- **Padrão MVVM**: Gerenciamento de estado escalável
+- **Testes Automatizados**: Garantia de qualidade em crescimento
+
+### **CI/CD Pipeline**
+
+Implementei uma **pipeline simples mas robusta** no GitHub Actions:
+
+- **Testes Automatizados**: Execução automática em push/PR
+- **Cache Inteligente**: Otimização de performance
+- **Deploy Automático**: Preparado para releases
+- **Sem Duplicação**: Workflows organizados e eficientes
+
+### **Planos Futuros**
+
+O projeto está preparado para expansão com:
+
+- **Deploy Automático para Google Play Store**
+- **Deploy Automático para Apple App Store**
+- **Testes de Performance**
+- **Monitoramento e Analytics**
+- **Novas Features**: Detalhes de personagens, favoritos, busca, etc.
 
 ---
 
@@ -111,8 +144,8 @@ Essa estrutura facilita a testabilidade, manutenção e escalabilidade do códig
 ### Passos:
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/erikrestani/test_fteam.git
-   cd test_fteam
+   git clone https://github.com/erikrestani/list_rickandmorty_app.git
+   cd list_rickandmorty_app
    ```
 
 2. **Instale as dependências:**

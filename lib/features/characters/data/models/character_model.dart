@@ -1,4 +1,4 @@
-import 'package:test_fteam/features/characters/domain/entities/character.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/entities/character.dart';
 
 class CharacterModel extends Character {
   const CharacterModel({
