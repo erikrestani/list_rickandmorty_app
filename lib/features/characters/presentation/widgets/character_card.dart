@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:test_fteam/core/theme/app_theme.dart';
 import 'package:test_fteam/features/characters/domain/entities/character.dart';
 
@@ -24,24 +25,25 @@ class CharacterCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  character.image,
+                child: CachedNetworkImage(
+                  imageUrl: character.image,
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.grey[300],
-                      child: const Icon(
-                        Icons.person,
-                        size: 40,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
-                ),  
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    width: 80,
+                    height: 80,
+                    color: AppTheme.textSecondaryColor,
+                    child: Icon(
+                      Icons.person,
+                      size: 40,
+                      color: AppTheme.textColor,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -51,11 +53,7 @@ class CharacterCard extends StatelessWidget {
                   children: [
                     Text(
                       character.name,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+                      style: AppTheme.characterNameStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -71,11 +69,11 @@ class CharacterCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        Text(
-                          '${character.status} - ${character.species}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
+                        Expanded(
+                          child: Text(
+                            '${character.status} - ${character.species}',
+                            style: AppTheme.characterStatusStyle,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -83,7 +81,11 @@ class CharacterCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.grey[400], size: 16),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: AppTheme.textSecondaryColor,
+                size: 16,
+              ),
             ],
           ),
         ),

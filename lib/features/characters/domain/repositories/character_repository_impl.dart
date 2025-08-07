@@ -8,8 +8,8 @@ class CharacterRepositoryImpl implements CharacterRepository {
   CharacterRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Character>> getCharacters() async {
-    final models = await datasource.getCharacters();
+  Future<List<Character>> getCharacters(int page) async {
+    final models = await datasource.getCharacters(page);
     return models.map((model) => model.toEntity()).toList();
   }
 }
