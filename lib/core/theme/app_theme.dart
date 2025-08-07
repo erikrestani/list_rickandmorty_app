@@ -17,6 +17,10 @@ class AppTheme {
   static const Color statusDead = Color(0xFFE74C3C); // Vermelho
   static const Color statusUnknown = Color(0xFFF39C12); // Laranja
 
+  // Cores com opacidade
+  static const Color shadowColor = Color(0x4D000000); // 30% opacidade
+  static const Color borderColorLight = Color(0x4D27AE60); // Verde com 30% opacidade
+
   // Gradientes
   static const LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topCenter,

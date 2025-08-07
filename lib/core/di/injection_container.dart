@@ -5,7 +5,9 @@ import 'package:list_rickandmorty_app/features/characters/data/datasources/chara
 import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/repositories/character_repository_impl.dart';
 import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_characters.dart';
+import 'package:list_rickandmorty_app/features/characters/domain/usecases/get_character_by_id.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_details_viewmodel.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -46,7 +48,17 @@ Future<void> _initCharacters() async {
     );
   }
 
+  if (!sl.isRegistered<GetCharacterById>()) {
+    sl.registerLazySingleton<GetCharacterById>(
+      () => GetCharacterById(sl<CharacterRepository>()),
+    );
+  }
+
   sl.registerFactory<CharacterViewModel>(
     () => CharacterViewModel(sl<GetCharacters>()),
+  );
+
+  sl.registerFactory<CharacterDetailsViewModel>(
+    () => CharacterDetailsViewModel(sl<GetCharacterById>()),
   );
 }

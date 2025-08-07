@@ -3,6 +3,7 @@ import 'package:list_rickandmorty_app/core/di/injection_container.dart';
 import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/viewmodels/character_viewmodel.dart';
 import 'package:list_rickandmorty_app/features/characters/presentation/widgets/character_card.dart';
+import 'package:list_rickandmorty_app/features/characters/presentation/pages/character_details_page.dart';
 
 class CharacterListPage extends StatefulWidget {
   const CharacterListPage({super.key});
@@ -131,10 +132,11 @@ class _CharacterListPageState extends State<CharacterListPage> {
                   return CharacterCard(
                     character: character,
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Clicou em ${character.name}'),
-                          backgroundColor: AppTheme.secondaryColor,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CharacterDetailsPage(characterId: character.id),
                         ),
                       );
                     },

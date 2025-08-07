@@ -12,4 +12,10 @@ class CharacterRepositoryImpl implements CharacterRepository {
     final models = await datasource.getCharacters(page);
     return models.map((model) => model.toEntity()).toList();
   }
+
+  @override
+  Future<Character> getCharacterById(int id) async {
+    final model = await datasource.getCharacterById(id);
+    return model.toEntity();
+  }
 }

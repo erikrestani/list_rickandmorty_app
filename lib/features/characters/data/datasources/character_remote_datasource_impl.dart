@@ -32,4 +32,28 @@ class CharacterRemoteDatasourceImpl implements CharacterRemoteDatasource {
       throw Exception('Erro inesperado');
     }
   }
+
+  @override
+  Future<CharacterModel> getCharacterById(int id) async {
+    try {
+      final response = await dio.get('character/$id');
+
+      if (response.statusCode == 200) {
+        return CharacterModel.fromJson(response.data);
+      } else {
+        throw Exception('Erro de servidor: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        throw Exception('Timeout de conexão');
+      } else if (e.type == DioExceptionType.connectionError) {
+        throw Exception('Erro de conexão');
+      } else {
+        throw Exception('Erro de rede');
+      }
+    } catch (e) {
+      throw Exception('Erro inesperado');
+    }
+  }
 }

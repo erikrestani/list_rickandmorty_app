@@ -2,4 +2,5 @@ import 'package:list_rickandmorty_app/features/characters/data/models/character_
 
 abstract class CharacterRemoteDatasource {
   Future<List<CharacterModel>> getCharacters(int page);
+  Future<CharacterModel> getCharacterById(int id);
 }
