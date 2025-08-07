@@ -169,12 +169,10 @@ flutter run
 - **Loading Centralizado**: Indicador de carregamento centralizado na parte inferior
 - **Filter System**: Filtros por nome e status dos personagens
 - **Search**: Busca por nome dos personagens
-- **Refresh**: Pull-to-refresh para atualizar a lista
 
 ### Character Details
 - **Informações Completas**: Dados detalhados de cada personagem
 - **Status Indicators**: Indicadores visuais de status (Alive, Dead, Unknown)
-- **Episode List**: Lista de episódios em que o personagem aparece
 - **Navigation**: Navegação fluida entre telas
 
 ## 🔧 Tecnologias Utilizadas
@@ -200,9 +198,8 @@ A aplicação consome a [Rick and Morty API](https://rickandmortyapi.com/) para 
 
 ## 🙏 Agradecimentos
 
-- [Rick and Morty API](https://rickandmortyapi.com/) por fornecer os dados
 - Comunidade Flutter por recursos e documentação
-- FTeam pelo desafio técnico que inspirou este projeto
+- FTeam pelo desafio técnico 
 
 ---
 
