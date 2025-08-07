@@ -1,6 +1,6 @@
 # Rick and Morty Character List App
 
-Uma aplicação Flutter moderna para listar personagens da série Rick and Morty, construída com Clean Architecture e seguindo as melhores práticas de desenvolvimento.
+Uma aplicação Flutter moderna para listar personagens da série Rick and Morty, construída com Clean Architecture e seguindo as melhores práticas e a estrutura mais atual recomendada pela equipe do Flutter.
 
 ## 🚀 Funcionalidades
 
@@ -14,7 +14,7 @@ Uma aplicação Flutter moderna para listar personagens da série Rick and Morty
 
 ## 🏗️ Arquitetura
 
-O projeto segue os princípios da **Clean Architecture** com as seguintes camadas:
+O projeto segue os princípios da **Clean Architecture** e adota a estrutura recomendada pelo Flutter para projetos escaláveis, com separação clara entre camadas de apresentação, domínio e dados.
 
 ### 📁 Estrutura do Projeto
 
