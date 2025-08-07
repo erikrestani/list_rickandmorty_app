@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
 
 class StatusColorUtils {
   static Color getStatusColor(String status) {
     switch (status.toLowerCase()) {
       case 'alive':
-        return Colors.green;
+        return AppTheme.statusAlive;
       case 'dead':
-        return Colors.red;
+        return AppTheme.statusDead;
       case 'unknown':
-        return Colors.orange;
+        return AppTheme.statusUnknown;
       default:
-        return Colors.grey;
+        return AppTheme.textSecondaryColor;
     }
   }
 

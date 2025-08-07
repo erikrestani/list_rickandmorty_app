@@ -15,7 +15,6 @@ class ListRickAndMortyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'List Rick and Morty',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       home: const CharacterListPage(),

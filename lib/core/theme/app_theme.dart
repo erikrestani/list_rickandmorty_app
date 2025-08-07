@@ -2,32 +2,49 @@ import 'package:flutter/material.dart';
 
 /// Classe responsável por gerenciar o tema do app
 class AppTheme {
-  // Cores principais
-  static const Color primaryColor = Color(0xFF2C3E50); // Azul escuro
-  static const Color secondaryColor = Color(0xFF27AE60); // Verde
-  static const Color backgroundColor = Color(0xFF1A1A1A); // Preto
-  static const Color surfaceColor = Color(0xFF2C3E50); // Azul escuro
+  // Cores principais - Design moderno e sutil
+  static const Color primaryColor = Color(0xFF1E293B); // Azul escuro sutil
+  static const Color secondaryColor = Color(0xFF3B82F6); // Azul neon principal
+  static const Color accentColor = Color(0xFF60A5FA); // Azul neon claro
+  static const Color backgroundColor = Color(0xFF0F172A); // Fundo escuro
+  static const Color surfaceColor = Color(0xFF1E293B); // Superfície escura
+  static const Color cardBackgroundColor = Color(0x0A3B82F6); // Azul neon muito sutil
   static const Color textColor = Colors.white;
-  static const Color textSecondaryColor = Color(0xFFB0B0B0);
-  static const Color cardColor = Colors.white;
-  static const Color errorColor = Color(0xFFE74C3C);
+  static const Color textSecondaryColor = Color(0xFF94A3B8);
+  static const Color cardColor = Color(0x1A3B82F6); // Azul neon transparente
+  static const Color errorColor = Color(0xFFEF4444);
 
   // Cores de status dos personagens
-  static const Color statusAlive = Color(0xFF27AE60); // Verde
-  static const Color statusDead = Color(0xFFE74C3C); // Vermelho
-  static const Color statusUnknown = Color(0xFFF39C12); // Laranja
+  static const Color statusAlive = Color(0xFF10B981); // Verde sutil
+  static const Color statusDead = Color(0xFFEF4444); // Vermelho
+  static const Color statusUnknown = Color(0xFFF59E0B); // Laranja
 
-  // Cores com opacidade
-  static const Color shadowColor = Color(0x4D000000); // 30% opacidade
-  static const Color borderColorLight = Color(
-    0x4D27AE60,
-  ); // Verde com 30% opacidade
+  // Cores de sombra e borda
+  static const Color shadowColor = Color(0x20000000); // Sombra sutil
+  static const Color borderColorLight = Color(0x4D3B82F6); // Azul neon mais intenso
+  static const Color borderColorNeon = Color(0x803B82F6); // Azul neon mais brilhante
+  static const Color borderColorDark = Color(0xFF1E293B);
+  static const Color statusShadowColor = Color(0x4D000000); // Sombra para status
+  static const Color neonShadowColor = Color(0x403B82F6); // Sombra neon específica
+  static const Color neonGlowColor = Color(0x603B82F6); // Brilho neon específico
 
-  // Gradientes
+  // Gradientes sutis
   static const LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [primaryColor, backgroundColor],
+    colors: [backgroundColor, surfaceColor],
+  );
+
+  static const LinearGradient headerGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0x1A3B82F6), Color(0x0A3B82F6)],
+  );
+
+  static const LinearGradient cardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0x1A3B82F6), Color(0x0A3B82F6)],
   );
 
   // Tema claro
@@ -140,41 +157,77 @@ class AppTheme {
   static const TextStyle characterNameStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
-    color: Colors.black87,
+    color: textColor,
   );
 
   static const TextStyle characterStatusStyle = TextStyle(
     fontSize: 14,
-    color: Color(0xFF666666),
+    color: textSecondaryColor,
   );
 
-  // Método para obter cor de status
-  static Color getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'alive':
-        return statusAlive;
-      case 'dead':
-        return statusDead;
-      case 'unknown':
-        return statusUnknown;
-      default:
-        return statusUnknown;
-    }
-  }
+  // Novos estilos para o design moderno
+  static const TextStyle characterNameLargeStyle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: textColor,
+    shadows: [
+      Shadow(
+        offset: Offset(0, 2),
+        blurRadius: 4,
+        color: shadowColor,
+      ),
+    ],
+  );
+
+  static const TextStyle cardTitleStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: textSecondaryColor,
+  );
+
+  static const TextStyle cardValueStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: textColor,
+  );
 
   // Decorações de container
   static BoxDecoration get backgroundDecoration =>
       const BoxDecoration(gradient: backgroundGradient);
 
   static BoxDecoration get cardDecoration => BoxDecoration(
-    color: cardColor,
-    borderRadius: BorderRadius.circular(12),
+    color: Colors.transparent,
+    borderRadius: BorderRadius.circular(16),
+    border: Border.all(color: borderColorNeon, width: 2),
     boxShadow: [
       BoxShadow(
-        color: const Color(0x1A000000),
-        blurRadius: 8,
-        offset: const Offset(0, 2),
+        color: neonShadowColor,
+        blurRadius: 12,
+        offset: const Offset(0, 4),
       ),
     ],
+  );
+
+  static BoxDecoration get neonBorderDecoration => BoxDecoration(
+    color: Colors.transparent,
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(color: borderColorNeon, width: 1),
+  );
+
+  static BoxDecoration get neonGlowDecoration => BoxDecoration(
+    color: Colors.transparent,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(color: borderColorNeon, width: 2),
+    boxShadow: [
+      BoxShadow(
+        color: neonGlowColor,
+        blurRadius: 20,
+        offset: const Offset(0, 8),
+      ),
+    ],
+  );
+
+  static BoxDecoration get headerDecoration => const BoxDecoration(
+    gradient: headerGradient,
   );
 }
