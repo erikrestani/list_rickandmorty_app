@@ -21,14 +21,11 @@ class CharacterViewModel extends ChangeNotifier {
     errorMessage = null;
     notifyListeners();
 
-    debugPrint('🔄 Buscando página $_currentPage (loadMore: $loadMore)...');
-
     try {
       final result = await getCharacters(page: _currentPage);
 
       if (result.isEmpty) {
         _hasMore = false;
-        debugPrint('🚫 Nenhum personagem retornado na página $_currentPage');
       } else {
         if (loadMore) {
           characters.addAll(result);
@@ -38,13 +35,22 @@ class CharacterViewModel extends ChangeNotifier {
         }
 
         _currentPage++;
-        debugPrint(
-          '✅ Página carregada com sucesso. Total de personagens: ${characters.length}',
-        );
       }
-    } catch (e, stack) {
-      errorMessage = 'Erro ao buscar personagens: $e';
-      debugPrint('❌ Erro ao buscar personagens: $e\n$stack');
+    } catch (e) {
+      final error = e.toString();
+      if (error.contains('Timeout')) {
+        errorMessage =
+            'A conexão demorou muito para responder. Tente novamente.';
+      } else if (error.contains('conexão') || error.contains('rede')) {
+        errorMessage =
+            'Verifique sua conexão com a internet e tente novamente.';
+      } else if (error.contains('servidor')) {
+        errorMessage =
+            'Serviço temporariamente indisponível. Tente novamente em alguns minutos.';
+      } else {
+        errorMessage =
+            'Não foi possível carregar os personagens. Tente novamente.';
+      }
     }
 
     isLoading = false;

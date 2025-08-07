@@ -21,10 +21,7 @@ class AppTheme {
   static const LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [
-      primaryColor,
-      backgroundColor,
-    ],
+    colors: [primaryColor, backgroundColor],
   );
 
   // Tema claro
@@ -49,9 +46,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: cardColor,
         elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       textTheme: const TextTheme(
@@ -70,10 +65,7 @@ class AppTheme {
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
-          color: Color(0xFF666666),
-        ),
+        bodyMedium: TextStyle(fontSize: 14, color: Color(0xFF666666)),
       ),
       scaffoldBackgroundColor: backgroundColor,
     );
@@ -101,9 +93,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: cardColor,
         elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       textTheme: const TextTheme(
@@ -122,10 +112,7 @@ class AppTheme {
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
-          color: Color(0xFF666666),
-        ),
+        bodyMedium: TextStyle(fontSize: 14, color: Color(0xFF666666)),
       ),
       scaffoldBackgroundColor: backgroundColor,
     );
@@ -170,19 +157,18 @@ class AppTheme {
   }
 
   // Decorações de container
-  static BoxDecoration get backgroundDecoration => const BoxDecoration(
-        gradient: backgroundGradient,
-      );
+  static BoxDecoration get backgroundDecoration =>
+      const BoxDecoration(gradient: backgroundGradient);
 
   static BoxDecoration get cardDecoration => BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x1A000000), 
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      );
-} 
+    color: cardColor,
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+        color: const Color(0x1A000000),
+        blurRadius: 8,
+        offset: const Offset(0, 2),
+      ),
+    ],
+  );
+}

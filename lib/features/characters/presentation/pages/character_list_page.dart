@@ -64,40 +64,48 @@ class _CharacterListPageState extends State<CharacterListPage> {
             if (_viewModel.isLoading && _viewModel.characters.isEmpty) {
               return const Center(
                 child: CircularProgressIndicator(
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(AppTheme.textColor),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppTheme.textColor),
                 ),
               );
             }
 
             if (_viewModel.errorMessage != null &&
                 _viewModel.characters.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 64,
-                      color: AppTheme.errorColor,
+              return SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          size: 64,
+                          color: AppTheme.errorColor,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          _viewModel.errorMessage!,
+                          style: AppTheme.subtitleStyle.copyWith(
+                            color: AppTheme.errorColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () => _viewModel.fetchCharacters(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryColor,
+                            foregroundColor: AppTheme.textColor,
+                          ),
+                          child: const Text('Tentar Novamente'),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      _viewModel.errorMessage!,
-                      style: AppTheme.subtitleStyle.copyWith(
-                        color: AppTheme.errorColor,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: () => _viewModel.fetchCharacters(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        foregroundColor: AppTheme.textColor,
-                      ),
-                      child: const Text('Tentar Novamente'),
-                    ),
-                  ],
+                  ),
                 ),
               );
             }
@@ -114,9 +122,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
                     return _viewModel.isLoading
                         ? const Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            child: Center(child: CircularProgressIndicator()),
                           )
                         : const SizedBox();
                   }

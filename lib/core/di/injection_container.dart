@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource.dart';
 import 'package:test_fteam/features/characters/data/datasources/character_remote_datasource_impl.dart';
@@ -22,14 +21,6 @@ Future<void> _initCore() async {
       dio.options.baseUrl = 'https://rickandmortyapi.com/api/';
       dio.options.connectTimeout = const Duration(seconds: 60);
       dio.options.receiveTimeout = const Duration(seconds: 60);
-
-      dio.interceptors.add(
-        LogInterceptor(
-          requestBody: true,
-          responseBody: true,
-          logPrint: (obj) => debugPrint(obj.toString()),
-        ),
-      );
 
       return dio;
     });
