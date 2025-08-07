@@ -1,0 +1,29 @@
+# Configuração de Code Owners
+# Define quem deve fazer review de código
+
+# Responsável geral pelo projeto
+* @erik
+
+# Responsável por testes
+test/ @erik
+
+# Responsável por CI/CD
+.github/ @erik
+scripts/ @erik
+
+# Responsável por configuração do projeto
+pubspec.yaml @erik
+analysis_options.yaml @erik
+
+# Responsável por documentação
+*.md @erik
+CI_CD_README.md @erik
+
+# Responsável por assets
+assets/ @erik
+
+# Responsável por configuração Android
+android/ @erik
+
+# Responsável por configuração iOS
+ios/ @erik 

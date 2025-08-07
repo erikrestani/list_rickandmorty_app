@@ -1,41 +1,32 @@
 #!/bin/bash
 
-echo "🧪 Executando testes automatizados..."
-echo "=================================="
+echo "🧪 Executando testes..."
+echo "======================"
 
-# Verificar se o Flutter está instalado
+# 1. Verificar se Flutter está instalado
 if ! command -v flutter &> /dev/null; then
-    echo "❌ Flutter não encontrado. Instale o Flutter primeiro."
+    echo "❌ Flutter não encontrado"
     exit 1
 fi
 
-# Instalar dependências
+# 2. Instalar dependências
 echo "📦 Instalando dependências..."
 flutter pub get
 
-# Verificar formatação
+# 3. Verificar formatação
 echo "🎨 Verificando formatação..."
 dart format --output=none --set-exit-if-changed .
 
-# Analisar código
+# 4. Analisar código
 echo "🔍 Analisando código..."
 flutter analyze
 
-# Executar testes
+# 5. Executar testes
 echo "⚡ Executando testes..."
 flutter test --coverage
 
-# Gerar relatório de cobertura (se lcov estiver disponível)
-if command -v genhtml &> /dev/null; then
-    echo "📊 Gerando relatório de cobertura..."
-    genhtml coverage/lcov.info -o coverage/html
-    echo "📁 Relatório de cobertura: coverage/html/index.html"
-else
-    echo "⚠️  lcov não encontrado. Instale para gerar relatório HTML:"
-    echo "   macOS: brew install lcov"
-    echo "   Ubuntu: sudo apt-get install lcov"
-    echo "📄 Relatório de cobertura: coverage/lcov.info"
-fi
+# 6. Mostrar cobertura
+echo "📊 Cobertura de testes:"
+lcov --summary coverage/lcov.info
 
-echo "✅ Testes concluídos!"
-echo "🎯 Todos os 40 testes passaram!" 
+echo "✅ Concluído!" 
