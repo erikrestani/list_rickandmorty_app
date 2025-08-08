@@ -65,6 +65,40 @@ void main() {
         image: 'test.jpg',
       );
 
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CharacterCard(character: aliveCharacter, onTap: () {}),
+          ),
+        ),
+      );
+
+      await tester.pump();
+
+      expect(find.text('Alive'), findsOneWidget);
+
+      final containers = tester.widgetList<Container>(find.byType(Container));
+      bool foundAliveStatus = false;
+
+      for (final container in containers) {
+        if (container.decoration is BoxDecoration) {
+          final decoration = container.decoration as BoxDecoration;
+          if (decoration.shape == BoxShape.circle && decoration.color != null) {
+            if (decoration.color == const Color(0xFF10B981)) {
+              foundAliveStatus = true;
+              break;
+            }
+          }
+        }
+      }
+
+      expect(
+        foundAliveStatus,
+        isTrue,
+        reason:
+            'Indicador de status para personagem Alive deve existir com cor verde',
+      );
+
       final deadCharacter = Character(
         id: 2,
         name: 'Morty',
@@ -76,18 +110,38 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: Column(
-              children: [
-                CharacterCard(character: aliveCharacter, onTap: () {}),
-                CharacterCard(character: deadCharacter, onTap: () {}),
-              ],
-            ),
+            body: CharacterCard(character: deadCharacter, onTap: () {}),
           ),
         ),
       );
 
-      expect(find.text('Alive'), findsOneWidget);
+      await tester.pump();
+
       expect(find.text('Dead'), findsOneWidget);
+
+      final deadContainers = tester.widgetList<Container>(
+        find.byType(Container),
+      );
+      bool foundDeadStatus = false;
+
+      for (final container in deadContainers) {
+        if (container.decoration is BoxDecoration) {
+          final decoration = container.decoration as BoxDecoration;
+          if (decoration.shape == BoxShape.circle && decoration.color != null) {
+            if (decoration.color == const Color(0xFFEF4444)) {
+              foundDeadStatus = true;
+              break;
+            }
+          }
+        }
+      }
+
+      expect(
+        foundDeadStatus,
+        isTrue,
+        reason:
+            'Indicador de status para personagem Dead deve existir com cor vermelha',
+      );
     });
 
     testWidgets('deve lidar com nomes longos de personagens', (
