@@ -25,7 +25,7 @@ class CharacterCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     width: 60,
@@ -71,22 +71,27 @@ class CharacterCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
-
-                  Text(
-                    character.name,
-                    style: AppTheme.characterNameStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                  Flexible(
+                    flex: 2,
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 40),
+                      child: Center(
+                        child: Text(
+                          character.name,
+                          style: AppTheme.characterNameStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         width: 8,
@@ -106,12 +111,15 @@ class CharacterCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Text(
-                        character.status,
-                        style: AppTheme.characterStatusStyle.copyWith(
-                          fontSize: 12,
+                      Flexible(
+                        child: Text(
+                          character.status,
+                          style: AppTheme.characterStatusStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
