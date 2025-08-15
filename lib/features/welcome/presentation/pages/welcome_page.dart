@@ -4,7 +4,6 @@ import 'package:list_rickandmorty_app/core/theme/app_theme.dart';
 import 'package:list_rickandmorty_app/features/welcome/presentation/viewmodels/welcome_viewmodel.dart';
 import 'package:list_rickandmorty_app/features/welcome/presentation/widgets/load_characters_button.dart';
 import 'package:list_rickandmorty_app/features/welcome/presentation/widgets/welcome_content.dart';
-import 'package:list_rickandmorty_app/features/welcome/presentation/widgets/welcome_footer.dart';
 import 'package:list_rickandmorty_app/shared/error_widget.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -64,8 +63,6 @@ class _WelcomePageState extends State<WelcomePage> {
                         _viewModel.loadCharactersAndNavigate(context),
                   ),
                   const Spacer(),
-                  const WelcomeFooter(),
-                  const SizedBox(height: 20),
                 ],
               ),
             );
