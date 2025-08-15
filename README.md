@@ -196,11 +196,4 @@ A aplicação consome a [Rick and Morty API](https://rickandmortyapi.com/) para 
 
 **Erik** - Desenvolvedor Flutter
 
-## 🙏 Agradecimentos
-
-- Comunidade Flutter por recursos e documentação
-- FTeam pelo desafio técnico 
-
 ---
-
-**me aprovem por favor!!** 😄
